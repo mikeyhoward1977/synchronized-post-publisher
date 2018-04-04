@@ -144,10 +144,15 @@ final class Synchronized_Post_Publisher {
 	 * @return	void
 	 */
 	private function includes()	{
+
 		require_once WP_SPP_PLUGIN_DIR . 'includes/post-functions.php';
+
 		if ( is_admin() )	{
 			require_once WP_SPP_PLUGIN_DIR . 'includes/admin/settings.php';
 		}
+
+		require_once WP_SPP_PLUGIN_DIR . 'includes/install.php';
+
 	} // includes
 	
 	/**
