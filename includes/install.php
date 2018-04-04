@@ -68,6 +68,7 @@ function wp_spp_run_install() {
 
 	// Set the default options
 	update_option( 'wp_spp_post_types_enabled', array( 'post' ) );
+	update_option( 'wp_spp_post_sync_groups', array() );
 	update_option( 'wp_spp_version', WP_SPP_VERSION );
 	add_option( 'wp_spp_install_version', WP_SPP_VERSION, '', 'no' );
 	add_option( 'wp_spp_installed', current_time( 'mysql' ), '', 'no' );
