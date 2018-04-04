@@ -17,12 +17,18 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) )
  *
  */
 
+global $wpdb;
+
+// Delete post meta keys
+$wpdb->delete( $wpdb->postmeta, array( 'meta_key' => '_wp_spp_sync_group' ) );
+
 // Delete all Plugin Options
 $all_options = array(
 	'wp_spp_installed',
 	'wp_spp_version',
 	'wp_spp_version_upgraded_from',
 	'wp_spp_post_types_enabled',
+	'wp_spp_post_sync_groups',
 	'wp_spp_install_version'
 );
 
