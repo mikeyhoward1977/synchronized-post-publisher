@@ -47,7 +47,7 @@ final class Synchronized_Post_Publisher {
 	/** Singleton *************************************************************/
 
 	/**
-	 * @var		Synchronized_Post_Publisher The one true KB_Support
+	 * @var		Synchronized_Post_Publisher The one true Synchronized_Post_Publisher
 	 * @since	1.0
 	 */
 	private static $instance;
@@ -65,12 +65,12 @@ final class Synchronized_Post_Publisher {
 	 * @uses	Synchronized_Post_Publisher::includes()			Include the required files.
 	 * @uses	Synchronized_Post_Publisher::load_textdomain()	Load the language files.
 	 * @see WP_SPP()
-	 * @return	obj	Synchronized_Post_Publisher	The one true KB_Support
+	 * @return	obj	Synchronized_Post_Publisher	The one true Synchronized_Post_Publisher
 	 */
 	public static function instance() {
 
-		if ( ! isset( self::$instance ) && ! ( self::$instance instanceof KB_Support ) )	{
-			self::$instance = new KB_Support;
+		if ( ! isset( self::$instance ) && ! ( self::$instance instanceof Synchronized_Post_Publisher ) )	{
+			self::$instance = new Synchronized_Post_Publisher;
 			self::$instance->setup_constants();
 
 			add_action( 'plugins_loaded', array( self::$instance, 'load_textdomain' ) );
@@ -144,6 +144,7 @@ final class Synchronized_Post_Publisher {
 	 * @return	void
 	 */
 	private function includes()	{
+		require_once WP_SPP_PLUGIN_DIR . 'includes/post-functions.php';
 		if ( is_admin() )	{
 			require_once WP_SPP_PLUGIN_DIR . 'includes/admin/settings.php';
 		}
@@ -186,7 +187,7 @@ endif;
  * Example: <?php $wp_spp = WP_SPP(); ?>
  *
  * @since	1.0
- * @return	obj		KB_Support	The one true KB_Support Instance.
+ * @return	obj		Synchronized_Post_Publisher	The one true Synchronized_Post_Publisher Instance.
  */
 function WP_SPP()	{
 	return Synchronized_Post_Publisher::instance();
