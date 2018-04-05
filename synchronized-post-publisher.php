@@ -167,7 +167,11 @@ final class Synchronized_Post_Publisher {
 	 * @return	void
 	 */
 	private function hooks()	{
-        add_action( 'init',                  array( self::$instance, 'register_post_type' ) );
+        // Posts
+        add_action( 'init',                  array( self::$instance, 'register_post_type'                 ) );
+        add_action( 'delete_post',           array( self::$instance, 'remove_group_association_on_delete' ) );
+
+        // Scripts
 		add_action( 'admin_enqueue_scripts', array( self::$instance, 'load_admin_scripts' ) );
 	} // hooks
 
@@ -242,15 +246,15 @@ final class Synchronized_Post_Publisher {
             'all_items'             => __( 'Groups', 'synchronized-post-publisher' ),
             'view_item'             => __( 'View Group', 'synchronized-post-publisher' ),
             'search_items'          => __( 'Search Group', 'synchronized-post-publisher' ),
-            'not_found'             => __( 'No Groups found', 'synchronized-post-publisher' ),
-            'not_found_in_trash'    => __( 'No Groups found in Trash', 'synchronized-post-publisher' ),
+            'not_found'             => __( 'No groups found', 'synchronized-post-publisher' ),
+            'not_found_in_trash'    => __( 'No groups found in Trash', 'synchronized-post-publisher' ),
             'parent_item_colon'     => '',
             'menu_name'             => _x( 'SPP Groups', 'wp_spp_group post type menu name', 'synchronized-post-publisher' ),
             'featured_image'        => __( 'Group Image', 'synchronized-post-publisher' ),
             'set_featured_image'    => __( 'Set Group Image', 'synchronized-post-publisher' ),
             'remove_featured_image' => __( 'Remove Group Image', 'synchronized-post-publisher' ),
             'use_featured_image'    => __( 'Use as Group Image', 'synchronized-post-publisher' ),
-            'filter_items_list'     => __( 'Filter Group list', 'synchronized-post-publisher' ),
+            'filter_items_list'     => __( 'Filter group list', 'synchronized-post-publisher' ),
             'items_list_navigation' => __( 'Groups list navigation', 'synchronized-post-publisher' ),
             'items_list'            => __( 'Groupe list', 'synchronized-post-publisher' )
         ) );
@@ -273,6 +277,25 @@ final class Synchronized_Post_Publisher {
         register_post_type( 'wp_spp_group', apply_filters( 'wp_spp_groups_post_type_args', $args ) );
 
     } // register_post_type
+
+    /**
+     * When a group is deleted from the database, remove any posts associated
+     *
+     * @since   1.0
+     * @param   int     $post_id    The post ID
+     * @return  void
+     */
+    public function remove_group_association_on_delete( $post_id )  {
+        global $wpdb;
+
+        $wpdb->delete(
+            $wpdb->postmeta,
+            array(
+                'meta_key'   => '_wp_spp_sync_group',
+                'meta_value' => $post_id
+            )
+        );
+    } // remove_group_association_on_delete
 
 } // class Synchronized_Post_Publisher
 endif;

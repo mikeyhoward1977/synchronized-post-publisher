@@ -13,6 +13,8 @@
 if ( ! defined( 'ABSPATH' ) )
 	exit;
 
+
+
 /**
  * Define the columns that should be displayed for the wp_spp_group post lists screen
  *
