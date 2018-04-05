@@ -21,33 +21,29 @@ if ( ! defined( 'ABSPATH' ) )
  * @return	void
  */
 function wp_spp_sync_group_post_option( $post )	{
-
 	if ( wp_spp_post_can_be_grouped( $post ) )	{
         $current_group = __( 'None', 'synchronized-post-publisher' );
-		$sync_groups   = wp_spp_get_post_sync_groups( array( 'fields' => 'ids' ));
+		$sync_groups   = wp_spp_get_post_sync_groups();
 		$sync_group    = wp_spp_get_post_sync_group( $post->ID );
 
-        if ( $sync_group && in_array( $sync_group, $sync_groups ) )   {
-            $current_group = get_the_title( $sync_group );
-        } else  {
-            $sync_group = 0;
+        if ( $sync_group && array_key_exists( $sync_group, $sync_groups ) )   {
+            $current_group = $sync_groups[ $sync_group ];
         }
 
 		ob_start(); ?>
 
 		<div class="misc-pub-section">
-		    <input type="hidden" name="wp_spp_post_with_group" id="wp_spp_post_with_group" value="<?php echo $sync_group; ?>" />
 			<span class="dashicons dashicons-update" style="color: #82878c; padding-right: 3px;"></span>
-            <?php _e( 'Publish Group:', 'synchronized-post-publisher' ); ?> <strong><span id="wp_spp_current_group"><?php echo $current_group; ?></strong></span>
+            <?php _e( 'Publish Group:', 'synchronized-post-publisher' ); ?> <strong><?php echo $current_group; ?></strong>
             <a href="#wp_spp_select_group" class="edit-group hide-if-no-js"><span aria-hidden="true"><?php _e( 'Edit', 'synchronized-post-publisher' ); ?></span> <span class="screen-reader-text"><?php _e( 'Edit publish group', 'synchronized-post-publisher' ); ?></span></a>
 
 			<div id="post-sync-group-select" class="hide-if-js">
                 <select name='post_sync_group' id='post_sync_group'>
                     <option value="0"<?php selected( $sync_group, 0 ); ?>><?php _e( 'None', 'synchronized-post-publisher' ); ?></option>
 
-					<?php foreach( $sync_groups as $group ) : ?>
+					<?php foreach( $sync_groups as $slug => $name ) : ?>
 
-						<option value="<?php echo $group; ?>"<?php selected( $sync_group, $group ); ?>><?php echo get_the_title( $group ); ?></option>
+						<option value="<?php echo $slug; ?>"<?php selected( $sync_group, $slug ); ?><?php echo $name; ?></option>
 
                     <?php endforeach; ?>
 
@@ -60,6 +56,5 @@ function wp_spp_sync_group_post_option( $post )	{
 
         <?php echo ob_get_clean();
 	}
-
 } // wp_spp_sync_group_post_option
 add_action( 'post_submitbox_misc_actions', 'wp_spp_sync_group_post_option' );

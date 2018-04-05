@@ -76,11 +76,12 @@ final class Synchronized_Post_Publisher {
 			add_action( 'plugins_loaded', array( self::$instance, 'load_textdomain' ) );
 
 			self::$instance->includes();
+            self::$instance->hooks();
 		}
 
 		return self::$instance;
 
-	}
+	} // instance
 	
 	/**
 	 * Throw error on object clone.
@@ -135,7 +136,7 @@ final class Synchronized_Post_Publisher {
 		}
 
 	} // setup_constants
-			
+
 	/**
 	 * Include required files.
 	 *
@@ -146,16 +147,30 @@ final class Synchronized_Post_Publisher {
 	private function includes()	{
 
 		require_once WP_SPP_PLUGIN_DIR . 'includes/post-functions.php';
+        require_once WP_SPP_PLUGIN_DIR . 'includes/ajax-functions.php';
 
 		if ( is_admin() )	{
 			require_once WP_SPP_PLUGIN_DIR . 'includes/admin/settings.php';
 			require_once WP_SPP_PLUGIN_DIR . 'includes/admin/meta-boxes.php';
+            require_once WP_SPP_PLUGIN_DIR . 'includes/admin/post-spp-groups.php';
 		}
 
 		require_once WP_SPP_PLUGIN_DIR . 'includes/install.php';
 
 	} // includes
-	
+
+    /**
+	 * Hooks.
+	 *
+	 * @access	private
+	 * @since	1.0
+	 * @return	void
+	 */
+	private function hooks()	{
+        add_action( 'init',                  array( self::$instance, 'register_post_type' ) );
+		add_action( 'admin_enqueue_scripts', array( self::$instance, 'load_admin_scripts' ) );
+	} // hooks
+
 	/**
 	 * Load the text domain for translations.
 	 *
@@ -177,7 +192,88 @@ final class Synchronized_Post_Publisher {
         load_plugin_textdomain( 'synchronized-post-publisher', false, $wp_spp_lang_dir );
 
 	} // load_textdomain
-	
+
+    /**
+     * Load the admin scripts.
+     *
+     * @since   1.0
+     * @param	str		$hook	Page hook
+     * @return	void
+     */
+    public function load_admin_scripts( $hook ) {
+        global $typenow;
+
+        $enabled_post_types   = wp_spp_group_post_types();
+        $enabled_post_types[] = 'wp_spp_group';
+        $enabled_pages        = array( 'post.php', 'post-new.php' );
+
+        if ( ! in_array( $hook, $enabled_pages ) || ! in_array( $typenow, $enabled_post_types ) )  {
+            return;
+        }
+
+        $js_dir  = WP_SPP_PLUGIN_URL . 'assets/js/';
+
+        // Use minified libraries if SCRIPT_DEBUG is turned off
+        $suffix  = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
+
+        wp_enqueue_script( 'wp-spp-admin-scripts', $js_dir . 'admin-scripts' . $suffix . '.js', array( 'jquery' ), WP_SPP_VERSION, false );
+
+        wp_localize_script( 'wp-spp-admin-scripts', 'wp_spp_vars', array(
+            'confirm_group_publish' => __( 'This post is part of a Synchronized Post Publisher group. Continuing will also publish all other posts within this group. Click OK to confirm and publish, or Cancel to return.', 'synchronized-post-publisher' ),
+        ) );
+    } // load_admin_scripts
+
+/*****************************************
+ -- CUSTOM POST TYPE
+*****************************************/
+    /**
+     * Register the custom post type for WP_SPP.
+     *
+     * @since   1.0
+     */
+    public function register_post_type( $hook ) {
+
+        $labels =  apply_filters( 'wp_spp_labels', array(
+            'name'                  => _x( 'Synchronize Post Publisher Groups', 'wp_spp_group post type name', 'synchronized-post-publisher' ),
+            'singular_name'         => _x( 'Synchronize Post Publisher Group', 'singular wp_spp_group post type name', 'synchronized-post-publisher' ),
+            'add_new_item'          => __( 'Add New Group', 'synchronized-post-publisher' ),
+            'edit_item'             => __( 'Edit Group', 'synchronized-post-publisher' ),
+            'new_item'              => __( 'New Group', 'synchronized-post-publisher' ),
+            'all_items'             => __( 'Groups', 'synchronized-post-publisher' ),
+            'view_item'             => __( 'View Group', 'synchronized-post-publisher' ),
+            'search_items'          => __( 'Search Group', 'synchronized-post-publisher' ),
+            'not_found'             => __( 'No Groups found', 'synchronized-post-publisher' ),
+            'not_found_in_trash'    => __( 'No Groups found in Trash', 'synchronized-post-publisher' ),
+            'parent_item_colon'     => '',
+            'menu_name'             => _x( 'SPP Groups', 'wp_spp_group post type menu name', 'synchronized-post-publisher' ),
+            'featured_image'        => __( 'Group Image', 'synchronized-post-publisher' ),
+            'set_featured_image'    => __( 'Set Group Image', 'synchronized-post-publisher' ),
+            'remove_featured_image' => __( 'Remove Group Image', 'synchronized-post-publisher' ),
+            'use_featured_image'    => __( 'Use as Group Image', 'synchronized-post-publisher' ),
+            'filter_items_list'     => __( 'Filter Group list', 'synchronized-post-publisher' ),
+            'items_list_navigation' => __( 'Groups list navigation', 'synchronized-post-publisher' ),
+            'items_list'            => __( 'Groupe list', 'synchronized-post-publisher' )
+        ) );
+
+        $args = array(
+            'labels'             => $labels,
+            'public'             => false,
+            'publicly_queryable' => false,
+            'show_ui'            => true,
+            'show_in_menu'       => true,
+            'menu_icon'          => 'dashicons-update',
+            'menu_position'      => 3,
+            'query_var'          => true,
+            'rewrite'            => false,
+            'has_archive'        => false,
+            'hierarchical'       => false,
+            'supports'           => apply_filters( 'kbs_ticket_supports', array( 'title' ) )
+        );
+
+        register_post_type( 'wp_spp_group', apply_filters( 'wp_spp_groups_post_type_args', $args ) );
+
+    } // register_post_type
+
 } // class Synchronized_Post_Publisher
 endif;
 
