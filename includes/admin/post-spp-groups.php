@@ -95,19 +95,20 @@ function wp_spp_add_group_filters() {
     global $typenow;
 
     if ( in_array( $typenow, wp_spp_group_post_types() ) )  {
+		$post_type     = isset( $_GET['post_type'] ) ? $_GET['post_type'] : 'post';
         $group_options = array();
         $groups        = wp_spp_get_post_sync_groups();
 
         if ( ! empty( $groups ) )   {
             foreach( $groups as $group )    {
 
-                $posts_in_group = wp_spp_get_posts_in_sync_group( $group->ID );
+                $posts_in_group = wp_spp_get_posts_in_sync_group( $group->ID, array( 'post_type' => $post_type ) );
                 if ( empty( $posts_in_group ) ) {
                     continue;
                 }
 
                 foreach( $posts_in_group as $post ) {
-                    $group_options[ $group->ID ] = esc_html( $group->post_title ) . ' (' . count( $posts_in_group ) . ')';
+					$group_options[ $group->ID ] = esc_html( $group->post_title ) . ' (' . count( $posts_in_group ) . ')';
                 }
             }
         }

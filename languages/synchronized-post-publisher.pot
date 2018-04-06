@@ -1,0 +1,263 @@
+# Copyright (C) 2018 Mike Howard
+# This file is distributed under the GPL2.
+msgid ""
+msgstr ""
+"Project-Id-Version: Synchronized Post Publisher 1.0\n"
+"Report-Msgid-Bugs-To: https://mikesplugins.co.uk/\n"
+"POT-Creation-Date: 2018-04-06 20:23:50+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2018-MO-DA HO:MI+ZONE\n"
+"Last-Translator: WP-Translations (http://wp-translations.org/)\n"
+"Language-Team: WP-Translations <wpt@wp-translations.org>\n"
+"X-Generator: grunt-wp-i18n 0.5.4\n"
+"X-Poedit-KeywordsList: "
+"__;_e;_x:1,2c;_ex:1,2c;_n:1,2;_nx:1,2,4c;_n_noop:1,2;_nx_noop:1,2,3c;esc_"
+"attr__;esc_html__;esc_attr_e;esc_html_e;esc_attr_x:1,2c;esc_html_x:1,2c;\n"
+"Language: en_US\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-Country: United States\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-Basepath: ../\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-Bookmarks: \n"
+"X-Textdomain-Support: yes\n"
+
+#: assets/includes/admin/meta-boxes.php:26
+#: assets/includes/admin/meta-boxes.php:46
+#: assets/includes/admin/post-spp-groups.php:25
+#: assets/includes/admin/post-spp-groups.php:42
+#: assets/includes/ajax-functions.php:31 assets/includes/ajax-functions.php:35
+#: includes/admin/meta-boxes.php:26 includes/admin/meta-boxes.php:46
+#: includes/ajax-functions.php:31 includes/ajax-functions.php:35
+msgid "None"
+msgstr ""
+
+#: assets/includes/admin/meta-boxes.php:41
+#: assets/includes/admin/post-spp-groups.php:37
+#: includes/admin/meta-boxes.php:41
+msgid "Publish Group:"
+msgstr ""
+
+#: assets/includes/admin/meta-boxes.php:42
+#: assets/includes/admin/post-spp-groups.php:38
+#: includes/admin/meta-boxes.php:42
+msgid "Edit"
+msgstr ""
+
+#: assets/includes/admin/meta-boxes.php:42
+#: assets/includes/admin/post-spp-groups.php:38
+#: includes/admin/meta-boxes.php:42
+msgid "Edit publish group"
+msgstr ""
+
+#: assets/includes/admin/meta-boxes.php:55
+#: assets/includes/admin/post-spp-groups.php:51
+#: includes/admin/meta-boxes.php:55
+msgid "OK"
+msgstr ""
+
+#: assets/includes/admin/meta-boxes.php:56
+#: assets/includes/admin/post-spp-groups.php:52
+#: includes/admin/meta-boxes.php:56
+msgid "Cancel"
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+msgid "Synchronized Post Publisher"
+msgstr ""
+
+#: assets/includes/admin/settings.php:76 includes/admin/settings.php:77
+msgid "Enabled Post Types"
+msgstr ""
+
+#: assets/includes/admin/settings.php:79 includes/admin/settings.php:80
+msgid ""
+"Select the post types for which Synchronized Post Publisher should be "
+"enabled."
+msgstr ""
+
+#: assets/includes/admin/settings.php:83 includes/admin/settings.php:84
+msgid "Delete Groups on Publish"
+msgstr ""
+
+#: assets/includes/admin/settings.php:87 includes/admin/settings.php:88
+msgid ""
+"If enabled, post groups will be deleted once all posts within the group are "
+"successfully published."
+msgstr ""
+
+#: includes/admin/meta-boxes.php:77
+msgid "%s Posts"
+msgstr ""
+
+#: includes/admin/meta-boxes.php:99
+msgid "Title"
+msgstr ""
+
+#: includes/admin/meta-boxes.php:100
+msgid "Type"
+msgstr ""
+
+#: includes/admin/meta-boxes.php:101
+msgid "Author"
+msgstr ""
+
+#: includes/admin/meta-boxes.php:102 includes/admin/post-spp-groups.php:57
+msgid "Date"
+msgstr ""
+
+#: includes/admin/meta-boxes.php:103
+msgid "Actions"
+msgstr ""
+
+#: includes/admin/meta-boxes.php:111
+msgid "No posts within this group."
+msgstr ""
+
+#: includes/admin/meta-boxes.php:122
+msgid "Remove"
+msgstr ""
+
+#: includes/admin/meta-boxes.php:140
+msgid "Last modified: %s at %s"
+msgstr ""
+
+#: includes/admin/post-spp-groups.php:29
+msgid "Optionally enter a description for this group."
+msgstr ""
+
+#: includes/admin/post-spp-groups.php:118
+msgid "All SPP groups"
+msgstr ""
+
+#: includes/admin/post-spp-groups.php:162
+msgid "%s SPP Group Member"
+msgstr ""
+
+#: includes/admin/settings.php:24 includes/admin/settings.php:25
+msgid "Settings"
+msgstr ""
+
+#: synchronized-post-publisher.php:98 synchronized-post-publisher.php:110
+msgid "Cheatin&#8217; huh?"
+msgstr ""
+
+#: synchronized-post-publisher.php:230
+msgid ""
+"This post is part of a Synchronized Post Publisher group. Continuing will "
+"also publish all other posts within this group. Click OK to confirm and "
+"publish, or Cancel to return."
+msgstr ""
+
+#: synchronized-post-publisher.php:247
+msgid "Add New Group"
+msgstr ""
+
+#: synchronized-post-publisher.php:248
+msgid "Edit Group"
+msgstr ""
+
+#: synchronized-post-publisher.php:249
+msgid "New Group"
+msgstr ""
+
+#: synchronized-post-publisher.php:250
+msgid "Groups"
+msgstr ""
+
+#: synchronized-post-publisher.php:251
+msgid "View Group"
+msgstr ""
+
+#: synchronized-post-publisher.php:252
+msgid "Search Group"
+msgstr ""
+
+#: synchronized-post-publisher.php:253
+msgid "No groups found"
+msgstr ""
+
+#: synchronized-post-publisher.php:254
+msgid "No groups found in Trash"
+msgstr ""
+
+#: synchronized-post-publisher.php:257
+msgid "Group Image"
+msgstr ""
+
+#: synchronized-post-publisher.php:258
+msgid "Set Group Image"
+msgstr ""
+
+#: synchronized-post-publisher.php:259
+msgid "Remove Group Image"
+msgstr ""
+
+#: synchronized-post-publisher.php:260
+msgid "Use as Group Image"
+msgstr ""
+
+#: synchronized-post-publisher.php:261
+msgid "Filter group list"
+msgstr ""
+
+#: synchronized-post-publisher.php:262
+msgid "Groups list navigation"
+msgstr ""
+
+#: synchronized-post-publisher.php:263
+msgid "Groupe list"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "https://mikesplugins.co.uk/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "Synchronized publishing of multiple posts when a master post is published."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "Mike Howard"
+msgstr ""
+
+#. Tags of the plugin/theme
+msgid "posts, publish"
+msgstr ""
+
+#: includes/admin/post-spp-groups.php:53
+msgctxt "column name"
+msgid "Name"
+msgstr ""
+
+#: includes/admin/post-spp-groups.php:54
+msgctxt "column name"
+msgid "Description"
+msgstr ""
+
+#: includes/admin/post-spp-groups.php:55
+msgctxt "column name"
+msgid "Posts"
+msgstr ""
+
+#: includes/admin/post-spp-groups.php:56
+msgctxt "column name"
+msgid "Created by"
+msgstr ""
+
+#: synchronized-post-publisher.php:245
+msgctxt "wp_spp_group post type name"
+msgid "Synchronize Post Publisher Groups"
+msgstr ""
+
+#: synchronized-post-publisher.php:246
+msgctxt "singular wp_spp_group post type name"
+msgid "Synchronize Post Publisher Group"
+msgstr ""
+
+#: synchronized-post-publisher.php:256
+msgctxt "wp_spp_group post type menu name"
+msgid "SPP Groups"
+msgstr ""
