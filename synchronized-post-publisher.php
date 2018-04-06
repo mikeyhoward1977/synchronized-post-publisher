@@ -30,7 +30,7 @@
  * @package		WP_SPP
  * @category	Core
  * @author		Mike Howard
- * @version		1.2.1
+ * @version		1.0
  */
 
 // Exit if accessed directly.
