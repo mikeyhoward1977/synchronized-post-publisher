@@ -19,13 +19,14 @@ if ( ! defined( 'ABSPATH' ) )
  * @since	1.0
  */
 function wp_spp_admin_settings_menu()	{
-	add_options_page(
-		__( 'Synchronized Post Publisher', 'synchronized-post-publisher' ),
-		__( 'Synchronized Post Publisher', 'synchronized-post-publisher' ),
-		'manage_options',
-		'wp_spp',
-		'wp_spp_settings_page'
-	);
+    add_submenu_page(
+        'edit.php?post_type=wp_spp_group',
+        __( 'Settings', 'synchronized-post-publisher' ),
+        __( 'Settings', 'synchronized-post-publisher' ),
+        'manage_options',
+        'wp_spp',
+        'wp_spp_settings_page'
+    ); 
 } // wp_spp_admin_settings_menu
 add_action( 'admin_menu', 'wp_spp_admin_settings_menu' );
 

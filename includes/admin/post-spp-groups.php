@@ -26,7 +26,7 @@ function wp_spp_render_group_description_field( $post )	{
 		return;
 	}
 
-	$placeholder = __( 'Optionally enter a description for this group.', 'synchronized_post_publisher' );
+	$placeholder = __( 'Optionally enter a description for this group.', 'synchronized-post-publisher' );
 
 	ob_start(); ?>
 
@@ -50,11 +50,11 @@ function wp_spp_set_group_post_columns( $columns ) {
 
 	$columns = array(
         'cb'               => '<input type="checkbox" />',
-        'title'            => _x( 'Name', 'column name', 'synchronized_post_publisher' ),
-		'desc'             => _x( 'Description', 'column name', 'synchronized_post_publisher' ),
-		'posts'            => _x( 'Posts', 'column name', 'synchronized_post_publisher' ),
-        'author'           => _x( 'Created by', 'column name', 'synchronized_post_publisher' ),
-		'date'             => __( 'Date', 'kb-support' )
+        'title'            => _x( 'Name', 'column name', 'synchronized-post-publisher' ),
+		'desc'             => _x( 'Description', 'column name', 'synchronized-post-publisher' ),
+		'posts'            => _x( 'Posts', 'column name', 'synchronized-post-publisher' ),
+        'author'           => _x( 'Created by', 'column name', 'synchronized-post-publisher' ),
+		'date'             => __( 'Date', 'synchronized-post-publisher' )
     );
 	
 	return apply_filters( 'wp_spp_group_post_columns', $columns );
@@ -115,7 +115,7 @@ function wp_spp_add_group_filters() {
         if ( ! empty( $group_options ) )    {
             echo "<select name='spp_group' id='spp_group' class='postform'>";
 
-                echo "<option value=''>" . __( 'Show all SPP groups', 'kb-support' ) . "</option>";
+                echo "<option value=''>" . __( 'Show all SPP groups', 'synchronized-post-publisher' ) . "</option>";
 
                 foreach( $group_options as $option_id => $option_value )  {
                     $selected = isset( $_GET['spp_group'] ) && $_GET['spp_group'] == $option_id ? ' selected="selected"' : '';
@@ -144,3 +144,25 @@ function wp_spp_filter_posts_by_group( $query )	{
 	$query->set( 'meta_type', 'NUMERIC' );
 } // wp_spp_filter_posts_by_group
 add_action( 'pre_get_posts', 'wp_spp_filter_posts_by_group' );
+
+/**
+ * Add a page display state for grouped posts in the posts list table.
+ *
+ * @since   1.0
+ *
+ * @param   array   $post_states    An array of post display states.
+ * @param   WP_Post $post           The current post object.
+ * @return  array
+ */
+function wp_spp_add_display_post_states( $post_states, $post )  {
+    if ( wp_spp_post_can_be_grouped( $post ) )  {
+        $group = wp_spp_get_post_sync_group( $post->ID );
+
+        if ( $group )   {
+            $post_states['wp_spp_group'] = sprintf( __( '%s SPP Group Member', 'synchronized-post-publisher' ), get_the_title( $group ) );
+        }
+    }
+
+	return $post_states;
+} // wp_spp_add_display_post_states
+add_filter( 'display_post_states', 'wp_spp_add_display_post_states', 10, 2 );
