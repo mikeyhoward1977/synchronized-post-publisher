@@ -17,7 +17,24 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) )
  *
  */
 
+// Call the SPP main class file
+include_once( 'synchronized-post-publisher.php' );
+
 global $wpdb;
+
+// Delete the Custom Post Types
+$items = get_posts( array(
+	'post_type'   => 'wp_spp_group',
+	'post_status' => 'any',
+	'numberposts' => -1,
+	'fields'      => 'ids'
+) );
+
+if ( $items ) {
+	foreach ( $items as $item )	{
+		wp_delete_post( $item, true );
+	}
+}
 
 // Delete post meta keys
 $wpdb->delete( $wpdb->postmeta, array( 'meta_key' => '_wp_spp_sync_group' ) );
@@ -28,6 +45,7 @@ $all_options = array(
 	'wp_spp_version',
 	'wp_spp_version_upgraded_from',
 	'wp_spp_post_types_enabled',
+	'wp_spp_delete_groups_on_publish',
 	'wp_spp_install_version'
 );
 
