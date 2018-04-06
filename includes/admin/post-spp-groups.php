@@ -115,7 +115,7 @@ function wp_spp_add_group_filters() {
         if ( ! empty( $group_options ) )    {
             echo "<select name='spp_group' id='spp_group' class='postform'>";
 
-                echo "<option value=''>" . __( 'Show all SPP groups', 'synchronized-post-publisher' ) . "</option>";
+                echo "<option value=''>" . __( 'All SPP groups', 'synchronized-post-publisher' ) . "</option>";
 
                 foreach( $group_options as $option_id => $option_value )  {
                     $selected = isset( $_GET['spp_group'] ) && $_GET['spp_group'] == $option_id ? ' selected="selected"' : '';
