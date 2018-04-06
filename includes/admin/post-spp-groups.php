@@ -135,7 +135,7 @@ add_action( 'restrict_manage_posts', 'wp_spp_add_group_filters', 100 );
  * @return	void
  */
 function wp_spp_filter_posts_by_group( $query )	{
-	if ( ! is_admin() || ! in_array( $query->get( 'post_type' ), wp_spp_group_post_types() )  || ! isset( $_GET['spp_group'] ) )	{
+	if ( ! is_admin() || ! in_array( $query->get( 'post_type' ), wp_spp_group_post_types() ) || ! isset( $_GET['spp_group'] ) )	{
 		return;
 	}
 
