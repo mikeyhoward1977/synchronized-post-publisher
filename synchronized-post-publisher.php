@@ -341,7 +341,7 @@ final class Synchronized_Post_Publisher {
 
 		// Stop looping when publishing posts within the group
 		remove_action( 'transition_post_status', array( self::$instance, 'publish_group_posts' ), 10, 3 );
-	
+
 		// Publish the remaining posts
 		foreach( $posts_in_group as $group_post_id )	{
 			if ( wp_update_post( array( 'ID' => $group_post_id, 'post_status' => 'publish' ) ) )	{

@@ -163,7 +163,8 @@ function wp_spp_get_posts_in_sync_group( $post_id )	{
 		'posts_per_page' => -1,
 		'post_status'    => wp_spp_group_post_statuses(),
 		'meta_key'       => '_wp_spp_sync_group',
-		'meta_value_num' => $post_id,
+		'meta_value'     => $post_id,
+        'meta_type'      => 'NUMERIC',
 		'fields'         => 'ids'
 	) );
 
