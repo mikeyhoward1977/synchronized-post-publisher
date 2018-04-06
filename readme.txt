@@ -1,6 +1,6 @@
 === Synchronized Post Publisher ===
 Contributors: mikeyhoward1977
-Tags: post, publish
+Tags: posts, publish, publish posts, grouped posts, groups
 Requires at least: 4.1
 Tested up to: 4.9.5
 Requires PHP: 5.4
@@ -15,9 +15,9 @@ Automate the publishing of multiple posts and pages at the same time.
 
 Synchronized Post Publisher (SPP) for WordPress, allows you to group pages and posts (of any type) together and publish them all simutaneously.
 
-Let's say you're about to release a new product, or an update to an existing one. This product may needs product page, a release post and maybe even some documentation.
+Let's say you're about to release a new product, or an update to an existing one. This product may need product page, a release post and maybe even some documentation.
 
-SPP enables you to create all of the above in advance and publish them all at the same time with minimal effort.
+SPP enables you to create all of the above in advance and publish them all at the same time with minimal effort. Create all your documentation and your release post and add them to an SPP group. When you're ready to publish your product, all these posts will be published at the same time.
 
 Sure, there are other ways to achieve this. For example, you could visit each post individually and publish it, or you could visit the edit post page for each post type and publish via Quick Edit, but it's just not as quick and seamless as the Synchronized Post Publisher for WordPress.
 
@@ -77,7 +77,9 @@ Not much. All posts within the group will have their association removed when th
 
 = How do I see which posts are within a group? =
 
-Head to the **SPP Groups** menu option, click the name of the group and all posts within the group will be displayed
+Head to the **SPP Groups** menu option, click the name of the group and all posts within the group will be displayed.
+
+Additionally, any posts or pages within a group will have the group specified within the post table.
 
 = Where can I find support? =
 
