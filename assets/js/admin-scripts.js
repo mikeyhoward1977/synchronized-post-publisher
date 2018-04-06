@@ -44,7 +44,7 @@ jQuery(document).ready(function ($) {
                 if (response.group_name)	{
                     $('#wp_spp_current_group').html(response.group_name);
                     $('#wp_spp_post_with_group').val(group);
-                    $('#post-sync-group-select').hide( 'fast' );
+                    $('#post-sync-group-select').hide('fast');
                 }
             }
         }).fail(function (data) {

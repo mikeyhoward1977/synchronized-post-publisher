@@ -168,8 +168,9 @@ final class Synchronized_Post_Publisher {
 	 */
 	private function hooks()	{
         // Posts
-        add_action( 'init',                  array( self::$instance, 'register_post_type'                 ) );
-        add_action( 'delete_post',           array( self::$instance, 'remove_group_association_on_delete' ) );
+        add_action( 'init',                   array( self::$instance, 'register_post_type'                 ) );
+        add_action( 'delete_post',            array( self::$instance, 'remove_group_association_on_delete' ) );
+		add_action( 'transition_post_status', array( self::$instance, 'publish_group_posts'         ), 10, 3 );
 
         // Scripts
 		add_action( 'admin_enqueue_scripts', array( self::$instance, 'load_admin_scripts' ) );
@@ -278,6 +279,9 @@ final class Synchronized_Post_Publisher {
 
     } // register_post_type
 
+/*****************************************
+ -- GROUPS
+*****************************************/
     /**
      * When a group is deleted from the database, remove any posts associated
      *
@@ -296,6 +300,68 @@ final class Synchronized_Post_Publisher {
             )
         );
     } // remove_group_association_on_delete
+
+/*****************************************
+ -- PUBLISH GROUP POSTS
+*****************************************/
+	/**
+     * When a grouped post is published, publish all other posts in the group.
+     *
+     * @since   1.0
+     * @param	string  	$new_status		New post status.
+	 * @param	string  	$old_status		Old post status.
+	 * @param	WP_Post		$post       	Post object.
+     * @return  void
+     */
+    public function publish_group_posts( $new_status, $old_status, $post )  {
+
+		// Bail if new status is not publish, or the old status was publish
+        if ( 'publish' !== $new_status || 'publish' === $old_status )	{
+			return;
+		}
+
+		// Bail if the post type is not enabled, or old status could not be grouped
+		if ( ! in_array( $post->post_type, wp_spp_group_post_types() ) || ! in_array( $old_status, wp_spp_group_post_statuses() ) )	{
+			return;
+		}
+
+		// Bail if this post is not part of a group
+		$post_group = wp_spp_get_post_sync_group( $post->ID );
+		if ( ! $post_group )	{
+			return;
+		}
+
+		wp_spp_remove_post_from_sync_group( $post->ID );
+
+		// Bail if there are no other posts in the group
+		$posts_in_group = wp_spp_get_posts_in_sync_group( $post_group );
+		if ( empty( $posts_in_group ) )	{
+			return;
+		}
+
+		// Stop looping when publishing posts within the group
+		remove_action( 'transition_post_status', array( self::$instance, 'publish_group_posts' ), 10, 3 );
+	
+		// Publish the remaining posts
+		foreach( $posts_in_group as $group_post_id )	{
+			if ( wp_update_post( array( 'ID' => $group_post_id, 'post_status' => 'publish' ) ) )	{
+				wp_spp_remove_post_from_sync_group( $group_post_id );
+			}
+		}
+
+		// Delete group
+		if ( get_option( 'wp_spp_delete_groups_on_publish', false ) )	{
+			$remaining_posts = wp_spp_get_posts_in_sync_group( $post_group );
+
+			if ( empty( $remaining_posts ) )	{
+				wp_delete_post( $post_group, true );
+			}
+		}
+
+		// Re-hook this action
+		add_action( 'transition_post_status', array( self::$instance, 'publish_group_posts' ), 10, 3 );
+
+    } // publish_group_posts
 
 } // class Synchronized_Post_Publisher
 endif;

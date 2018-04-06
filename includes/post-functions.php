@@ -137,7 +137,7 @@ function wp_spp_remove_post_from_sync_group( $post_id )	{
  *
  * @since	1.0
  * @param	int		$post_id	Post ID
- * @return	string|false		Sync group name for post, or false
+ * @return	string|false		Sync group post ID, or false
  */
 function wp_spp_get_post_sync_group( $post_id )	{
 	$group = get_post_meta( $post_id, '_wp_spp_sync_group', true );
@@ -148,3 +148,50 @@ function wp_spp_get_post_sync_group( $post_id )	{
 
 	return $group;
 } // wp_spp_get_post_sync_group
+
+/**
+ * Retrieve all posts in the sync group.
+ *
+ * @since	1.0
+ * @param	int		$post_id	Group post ID
+ * @return	array	Array of post ID's within the group
+ */
+function wp_spp_get_posts_in_sync_group( $post_id )	{
+
+	$posts = get_posts( array(
+		'post_type'      => wp_spp_group_post_types(),
+		'posts_per_page' => -1,
+		'post_status'    => wp_spp_group_post_statuses(),
+		'meta_key'       => '_wp_spp_sync_group',
+		'meta_value_num' => $post_id,
+		'fields'         => 'ids'
+	) );
+
+	return $posts;
+} // wp_spp_get_posts_in_sync_group
+
+/**
+ * Count the number of posts in the sync group.
+ *
+ * @since	1.0
+ * @param	int		$post_id	Group post ID
+ * @return	int		Number of posts
+ */
+function wp_spp_count_sync_group_posts( $post_id )	{
+	global $wpdb;
+
+	$count = $wpdb->get_var( $wpdb->prepare( 
+		"
+			SELECT count(*)
+			FROM $wpdb->postmeta
+			WHERE
+			meta_key = %s
+			AND
+			meta_value = %d
+		",
+		'_wp_spp_sync_group',
+		$post_id
+	) );
+
+	return $count;
+} // wp_spp_count_sync_group_posts
