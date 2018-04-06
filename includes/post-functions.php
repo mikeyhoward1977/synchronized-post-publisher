@@ -154,11 +154,12 @@ function wp_spp_get_post_sync_group( $post_id )	{
  *
  * @since	1.0
  * @param	int		$post_id	Group post ID
+ * @param   array   $args       Array of args for get_posts
  * @return	array	Array of post ID's within the group
  */
-function wp_spp_get_posts_in_sync_group( $post_id )	{
+function wp_spp_get_posts_in_sync_group( $post_id, $args = array() )	{
 
-	$posts = get_posts( array(
+    $defaults = array(
 		'post_type'      => wp_spp_group_post_types(),
 		'posts_per_page' => -1,
 		'post_status'    => wp_spp_group_post_statuses(),
@@ -166,7 +167,10 @@ function wp_spp_get_posts_in_sync_group( $post_id )	{
 		'meta_value'     => $post_id,
         'meta_type'      => 'NUMERIC',
 		'fields'         => 'ids'
-	) );
+	);
+
+    $args  = wp_parse_args( $args, $defaults );
+	$posts = get_posts( $args );
 
 	return $posts;
 } // wp_spp_get_posts_in_sync_group

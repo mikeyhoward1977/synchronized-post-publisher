@@ -63,3 +63,92 @@ function wp_spp_sync_group_post_option( $post )	{
 
 } // wp_spp_sync_group_post_option
 add_action( 'post_submitbox_misc_actions', 'wp_spp_sync_group_post_option' );
+
+/**
+ * Adds the meta boxes for the wp_spp_group post type.
+ *
+ * @since   1.0
+ * @param	object	$post	WP_Post object.
+ */
+function wp_spp_add_meta_boxes( $post ) {
+    if ( 'draft' != $post->post_status && 'auto-draft' != $post->post_status )	{
+        add_meta_box(
+            'wp-spp-group-posts-metabox',
+            sprintf( __( '%s Posts', 'synchronized-post-publisher' ), get_the_title( $post ) ),
+            'wp_spp_group_posts_metabox_callback',
+            'wp_spp_group'
+        );
+    }
+} // wp_spp_add_meta_boxes
+add_action( 'add_meta_boxes_wp_spp_group', 'wp_spp_add_meta_boxes' );
+
+/**
+ * Renders the group posts metabox
+ *
+ * @since   1.0
+ * @param   object  $post   WP_Post object
+ */
+function wp_spp_group_posts_metabox_callback( $post )   {
+
+    $group_posts = wp_spp_get_posts_in_sync_group( $post->ID, array( 'fields' => 'all' ) );
+
+    ?>
+    <table class="wp-list-table widefat striped emails">
+        <thead>
+            <tr>
+                <th><?php _e( 'Title', 'synchronized-post-publisher' ); ?></th>
+                <th><?php _e( 'Type', 'synchronized-post-publisher' ); ?></th>
+                <th><?php _e( 'Author', 'synchronized-post-publisher' ); ?></th>
+                <th><?php _e( 'Date', 'synchronized-post-publisher' ); ?></th>
+                <th><?php _e( 'Actions', 'synchronized-post-publisher' ); ?></th>
+            </tr>
+        </thead>
+        <tbody>
+
+        <?php if ( empty( $group_posts ) ) : ?>
+            
+            <tr>
+                <td colspan="4"><?php _e( 'No posts within this group.', 'synchronized-post-publisher' ); ?></td>
+            </tr>
+
+        <?php else : ?>
+
+            <?php foreach( $group_posts as $group_post ) : ?>
+                <?php $post_type_object = get_post_type_object( $group_post->post_type ); ?>
+                <?php $post_author      = get_userdata( $group_post->post_author ); ?>
+                <?php $remove_url       = '#'; ?>
+
+                <?php $actions = array(
+                    'remove' => '<a href="' . $remove_url . '" class="delete" style="color: #a00;">' . __( 'Remove', 'synchronized-post-publisher' ) . '</a>'
+                );
+            
+                $actions = apply_filters( 'wp_spp_group_posts_metabox_table_actions', $actions, $group_post ); ?>
+
+                <tr>
+                    <td><?php printf(
+                        '<a href="%s">%s</a>',
+                        add_query_arg( array( 'post' => $group_post->ID, 'action' => 'edit' ), admin_url( 'post.php' ) ),
+                        get_the_title( $group_post )
+                    ); ?></td>
+                    <td><?php echo $post_type_object->labels->singular_name; ?></td>
+                    <td><?php printf(
+                        '<a href="%s">%s</a>',
+                        add_query_arg( 'user_id', $post_author->ID, admin_url( 'user-edit.php' ) ),
+                        $post_author->display_name
+                    ); ?></td>
+                    <td><span class="description"><?php printf(
+                        __( 'Last modified: %s at %s', 'synchronized-post-publisher' ),
+                        get_the_modified_date( get_option( 'date_format' ), $group_post ),
+                        get_the_modified_date( get_option( 'time_format' ), $group_post )
+                    ); ?></span></td>
+                    <td><?php echo implode( '|', $actions ); ?></td>
+                </tr>
+
+            <?php endforeach; ?>
+
+        <?php endif; ?>
+
+        </tbody>
+    </table>
+    <?php
+} // wp_spp_group_posts_metabox_callback
