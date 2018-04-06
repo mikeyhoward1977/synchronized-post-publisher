@@ -71,6 +71,38 @@ function wp_spp_post_can_be_grouped( $post )	{
 } // wp_spp_post_can_be_grouped
 
 /**
+ * Publish all posts in a sync group.
+ *
+ * @since	1.0
+ * @param	int		$group_id	Group post ID
+ * @return	void
+ */
+function wp_spp_publish_group_posts( $group_id )	{
+
+	// Bail if there are no other posts in the group
+	$posts_in_group = wp_spp_get_posts_in_sync_group( $group_id );
+	if ( empty( $posts_in_group ) )	{
+		return;
+	}
+
+	// Publish the remaining posts
+	foreach( $posts_in_group as $post_id )	{
+		if ( wp_update_post( array( 'ID' => $post_id, 'post_status' => 'publish' ) ) )	{
+			wp_spp_remove_post_from_sync_group( $post_id );
+		}
+	}
+
+	// Delete group
+	if ( get_option( 'wp_spp_delete_groups_on_publish', false ) )	{
+		$remaining_posts = wp_spp_get_posts_in_sync_group( $group_id );
+
+		if ( empty( $remaining_posts ) )	{
+			wp_delete_post( $group_id, true );
+		}
+	}
+} // wp_spp_publish_group_posts
+
+/**
  * Retrieve post sync groups.
  *
  * @since	1.0
@@ -133,7 +165,7 @@ function wp_spp_remove_post_from_sync_group( $post_id )	{
 } // wp_spp_remove_post_from_sync_group
 
 /**
- * Retrieve the sync group slug for a specific post.
+ * Retrieve the sync group post ID for a specific post.
  *
  * @since	1.0
  * @param	int		$post_id	Post ID

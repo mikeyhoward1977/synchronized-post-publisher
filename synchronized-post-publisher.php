@@ -364,30 +364,10 @@ final class Synchronized_Post_Publisher {
 
 		wp_spp_remove_post_from_sync_group( $post->ID );
 
-		// Bail if there are no other posts in the group
-		$posts_in_group = wp_spp_get_posts_in_sync_group( $post_group );
-		if ( empty( $posts_in_group ) )	{
-			return;
-		}
-
 		// Stop looping when publishing posts within the group
 		remove_action( 'transition_post_status', array( self::$instance, 'publish_group_posts' ), 10, 3 );
 
-		// Publish the remaining posts
-		foreach( $posts_in_group as $group_post_id )	{
-			if ( wp_update_post( array( 'ID' => $group_post_id, 'post_status' => 'publish' ) ) )	{
-				wp_spp_remove_post_from_sync_group( $group_post_id );
-			}
-		}
-
-		// Delete group
-		if ( get_option( 'wp_spp_delete_groups_on_publish', false ) )	{
-			$remaining_posts = wp_spp_get_posts_in_sync_group( $post_group );
-
-			if ( empty( $remaining_posts ) )	{
-				wp_delete_post( $post_group, true );
-			}
-		}
+		wp_spp_publish_group_posts( $post_group );
 
 		// Re-hook this action
 		add_action( 'transition_post_status', array( self::$instance, 'publish_group_posts' ), 10, 3 );
