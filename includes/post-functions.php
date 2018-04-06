@@ -112,7 +112,7 @@ function wp_spp_add_post_to_sync_group( $post_id, $group_id )	{
         $group = get_post( $group_id );
 
         if ( $group && 'wp_spp_group' == get_post_type( $group ) )    {
-            $added = update_post_meta( $post_id, '_wp_spp_sync_group', $group_id, true );
+            $added = update_post_meta( $post_id, '_wp_spp_sync_group', $group_id );
         }
     }
 
