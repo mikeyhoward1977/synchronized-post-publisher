@@ -160,7 +160,7 @@ function wp_spp_add_display_post_states( $post_states, $post )  {
         $group = wp_spp_get_post_sync_group( $post->ID );
 
         if ( $group )   {
-            $post_states['wp_spp_group'] = sprintf( __( '%s SPP Group Member', 'synchronized-post-publisher' ), get_the_title( $group ) );
+            $post_states['wp_spp_group'] = sprintf( __( '%s SPP Group', 'synchronized-post-publisher' ), get_the_title( $group ) );
         }
     }
 

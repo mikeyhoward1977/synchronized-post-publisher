@@ -116,7 +116,11 @@ function wp_spp_group_posts_metabox_callback( $post )   {
             <?php foreach( $group_posts as $group_post ) : ?>
                 <?php $post_type_object = get_post_type_object( $group_post->post_type ); ?>
                 <?php $post_author      = get_userdata( $group_post->post_author ); ?>
-                <?php $remove_url       = '#'; ?>
+                <?php $remove_url       = add_query_arg( array(
+					'wp_spp_action' => 'remove_post',
+					'spp_post_id'   => $group_post->ID,
+					'spp_group_id'  => $post->ID
+				), admin_url() ); ?>
 
                 <?php $actions = array(
                     'remove' => '<a href="' . $remove_url . '" class="delete" style="color: #a00;">' . __( 'Remove', 'synchronized-post-publisher' ) . '</a>'

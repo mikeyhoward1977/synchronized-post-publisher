@@ -167,13 +167,17 @@ final class Synchronized_Post_Publisher {
 	 * @return	void
 	 */
 	private function hooks()	{
+		// Admin notices
+		add_action( 'admin_notices',          array( self::$instance, 'admin_notices'                      ) );
+
         // Posts
         add_action( 'init',                   array( self::$instance, 'register_post_type'                 ) );
         add_action( 'delete_post',            array( self::$instance, 'remove_group_association_on_delete' ) );
 		add_action( 'transition_post_status', array( self::$instance, 'publish_group_posts'         ), 10, 3 );
+		add_action( 'admin_init',             array( self::$instance, 'remove_post_from_group'             ) );
 
         // Scripts
-		add_action( 'admin_enqueue_scripts', array( self::$instance, 'load_admin_scripts' ) );
+		add_action( 'admin_enqueue_scripts',  array( self::$instance, 'load_admin_scripts' ) );
 	} // hooks
 
 	/**
@@ -230,6 +234,30 @@ final class Synchronized_Post_Publisher {
             'confirm_group_publish' => __( 'This post is part of a Synchronized Post Publisher group. Continuing will also publish all other posts within this group. Click OK to confirm and publish, or Cancel to return.', 'synchronized-post-publisher' )
         ) );
     } // load_admin_scripts
+
+/*****************************************
+ -- ADMIN NOTICES
+*****************************************/
+	/**
+	 * Displays admin notices.
+	 *
+	 * @since	1.2
+	 */
+	public function admin_notices()	{
+
+		if ( isset( $_GET['wp-spp-notice'] ) )	{
+
+			if ( 'removed' == sanitize_text_field( $_GET['wp-spp-notice'] ) )	{
+				ob_start(); ?>
+				<div class="notice notice-success is-dismissible">
+					<p><?php _e( 'Post removed from group.', 'synchronized-post-publisher' ); ?></p>
+				</div>
+				<?php echo ob_get_clean();
+			}
+
+		}
+
+	} // admin_notices
 
 /*****************************************
  -- CUSTOM POST TYPE
@@ -365,6 +393,38 @@ final class Synchronized_Post_Publisher {
 		add_action( 'transition_post_status', array( self::$instance, 'publish_group_posts' ), 10, 3 );
 
     } // publish_group_posts
+
+	/**
+	 * Removes a post from the group
+	 *
+	 * @since	1.0
+	 * @return	void
+	 */
+	 public function remove_post_from_group()	{
+		 if ( isset( $_GET['wp_spp_action'] ) && 'remove_post' == sanitize_text_field( $_GET['wp_spp_action'] ) )	{
+
+			 $group_id = absint( $_GET['spp_group_id'] );
+			 $post_id  = absint( $_GET['spp_post_id'] );
+
+			if ( ! empty( $post_id ) )	{
+
+				if ( wp_spp_remove_post_from_sync_group( $post_id ) )	{
+
+					$redirect = add_query_arg( array(
+						'post'          => $group_id,
+						'action'        => 'edit',
+						'wp-spp-notice' => 'removed'
+					), admin_url( 'post.php' ) );
+
+					wp_safe_redirect( $redirect );
+					exit;
+
+				}
+
+			}
+
+		 }
+	 } // remove_post_from_group
 
 } // class Synchronized_Post_Publisher
 endif;
