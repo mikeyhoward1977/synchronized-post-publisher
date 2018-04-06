@@ -206,7 +206,7 @@ final class Synchronized_Post_Publisher {
      * @return	void
      */
     public function load_admin_scripts( $hook ) {
-        global $typenow;
+        global $typenow, $post;
 
         $enabled_post_types   = wp_spp_group_post_types();
         $enabled_post_types[] = 'wp_spp_group';
@@ -221,10 +221,13 @@ final class Synchronized_Post_Publisher {
         // Use minified libraries if SCRIPT_DEBUG is turned off
         $suffix  = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
 
+        $can_group = ! empty( $post ) && is_object( $post ) && wp_spp_post_can_be_grouped( $post ) ? 1 : 0;
+
         wp_enqueue_script( 'wp-spp-admin-scripts', $js_dir . 'admin-scripts' . $suffix . '.js', array( 'jquery' ), WP_SPP_VERSION, false );
 
         wp_localize_script( 'wp-spp-admin-scripts', 'wp_spp_vars', array(
-            'confirm_group_publish' => __( 'This post is part of a Synchronized Post Publisher group. Continuing will also publish all other posts within this group. Click OK to confirm and publish, or Cancel to return.', 'synchronized-post-publisher' ),
+            'can_group'             => $can_group,
+            'confirm_group_publish' => __( 'This post is part of a Synchronized Post Publisher group. Continuing will also publish all other posts within this group. Click OK to confirm and publish, or Cancel to return.', 'synchronized-post-publisher' )
         ) );
     } // load_admin_scripts
 
@@ -238,7 +241,7 @@ final class Synchronized_Post_Publisher {
      */
     public function register_post_type( $hook ) {
 
-        $labels =  apply_filters( 'wp_spp_labels', array(
+        $labels = apply_filters( 'wp_spp_labels', array(
             'name'                  => _x( 'Synchronize Post Publisher Groups', 'wp_spp_group post type name', 'synchronized-post-publisher' ),
             'singular_name'         => _x( 'Synchronize Post Publisher Group', 'singular wp_spp_group post type name', 'synchronized-post-publisher' ),
             'add_new_item'          => __( 'Add New Group', 'synchronized-post-publisher' ),
