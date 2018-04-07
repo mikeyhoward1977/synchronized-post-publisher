@@ -262,7 +262,7 @@ final class Synchronized_Post_Publisher {
 
 				ob_start(); ?>
 				<div class="notice notice-success is-dismissible">
-					<p><?php printf( _n( '%s post published from group.', '%s posts published from group.', 'synchronized-post-publisher' ), $total ); ?></p>
+					<p><?php printf( _n( '%s post published from group.', '%s posts published from group.', $total, 'synchronized-post-publisher' ), $total ); ?></p>
 				</div>
 				<?php echo ob_get_clean();
 			}

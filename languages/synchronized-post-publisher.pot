@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Synchronized Post Publisher 1.0\n"
 "Report-Msgid-Bugs-To: https://mikesplugins.co.uk/\n"
-"POT-Creation-Date: 2018-04-06 23:54:19+00:00\n"
+"POT-Creation-Date: 2018-04-07 12:13:25+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -24,103 +24,72 @@ msgstr ""
 "X-Poedit-Bookmarks: \n"
 "X-Textdomain-Support: yes\n"
 
-#: assets/includes/admin/meta-boxes.php:26
-#: assets/includes/admin/meta-boxes.php:46
-#: assets/includes/admin/post-spp-groups.php:25
-#: assets/includes/admin/post-spp-groups.php:42
-#: assets/includes/ajax-functions.php:31 assets/includes/ajax-functions.php:35
 #: includes/admin/meta-boxes.php:26 includes/admin/meta-boxes.php:46
 #: includes/ajax-functions.php:31 includes/ajax-functions.php:35
 msgid "None"
 msgstr ""
 
-#: assets/includes/admin/meta-boxes.php:41
-#: assets/includes/admin/post-spp-groups.php:37
 #: includes/admin/meta-boxes.php:41
 msgid "Publish Group:"
 msgstr ""
 
-#: assets/includes/admin/meta-boxes.php:42
-#: assets/includes/admin/post-spp-groups.php:38
 #: includes/admin/meta-boxes.php:42
 msgid "Edit"
 msgstr ""
 
-#: assets/includes/admin/meta-boxes.php:42
-#: assets/includes/admin/post-spp-groups.php:38
 #: includes/admin/meta-boxes.php:42
 msgid "Edit publish group"
 msgstr ""
 
-#: assets/includes/admin/meta-boxes.php:55
-#: assets/includes/admin/post-spp-groups.php:51
 #: includes/admin/meta-boxes.php:55
 msgid "OK"
 msgstr ""
 
-#: assets/includes/admin/meta-boxes.php:56
-#: assets/includes/admin/post-spp-groups.php:52
 #: includes/admin/meta-boxes.php:56
 msgid "Cancel"
-msgstr ""
-
-#. Plugin Name of the plugin/theme
-msgid "Synchronized Post Publisher"
-msgstr ""
-
-#: assets/includes/admin/settings.php:76 includes/admin/settings.php:77
-msgid "Enabled Post Types"
-msgstr ""
-
-#: assets/includes/admin/settings.php:79 includes/admin/settings.php:80
-msgid ""
-"Select the post types for which Synchronized Post Publisher should be "
-"enabled."
-msgstr ""
-
-#: assets/includes/admin/settings.php:83 includes/admin/settings.php:84
-msgid "Delete Groups on Publish"
-msgstr ""
-
-#: assets/includes/admin/settings.php:87 includes/admin/settings.php:88
-msgid ""
-"If enabled, post groups will be deleted once all posts within the group are "
-"successfully published."
 msgstr ""
 
 #: includes/admin/meta-boxes.php:77
 msgid "%s Posts"
 msgstr ""
 
-#: includes/admin/meta-boxes.php:99
+#: includes/admin/meta-boxes.php:87
+msgid "Publish Group Posts"
+msgstr ""
+
+#: includes/admin/meta-boxes.php:114
+msgid "Publish all Group Posts"
+msgstr ""
+
+#: includes/admin/meta-boxes.php:134
 msgid "Title"
 msgstr ""
 
-#: includes/admin/meta-boxes.php:100
+#: includes/admin/meta-boxes.php:135
 msgid "Type"
 msgstr ""
 
-#: includes/admin/meta-boxes.php:101
+#: includes/admin/meta-boxes.php:136
 msgid "Author"
 msgstr ""
 
-#: includes/admin/meta-boxes.php:102 includes/admin/post-spp-groups.php:57
+#: includes/admin/meta-boxes.php:137 includes/admin/post-spp-groups.php:57
 msgid "Date"
 msgstr ""
 
-#: includes/admin/meta-boxes.php:103
+#: includes/admin/meta-boxes.php:138
 msgid "Actions"
 msgstr ""
 
-#: includes/admin/meta-boxes.php:111
+#: includes/admin/meta-boxes.php:146
 msgid "No posts within this group."
 msgstr ""
 
-#: includes/admin/meta-boxes.php:126
+#: includes/admin/meta-boxes.php:161
 msgid "Remove"
 msgstr ""
 
-#: includes/admin/meta-boxes.php:144
+#: includes/admin/meta-boxes.php:179
 msgid "Last modified: %s at %s"
 msgstr ""
 
@@ -140,79 +109,127 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
+#. Plugin Name of the plugin/theme
+msgid "Synchronized Post Publisher"
+msgstr ""
+
+#: includes/admin/settings.php:77
+msgid "Enabled Post Types"
+msgstr ""
+
+#: includes/admin/settings.php:80
+msgid ""
+"Select the post types for which Synchronized Post Publisher should be "
+"enabled."
+msgstr ""
+
+#: includes/admin/settings.php:84
+msgid "Delete Groups on Publish"
+msgstr ""
+
+#: includes/admin/settings.php:88
+msgid ""
+"If enabled, post groups will be deleted once all posts within the group are "
+"successfully published."
+msgstr ""
+
 #: synchronized-post-publisher.php:98 synchronized-post-publisher.php:110
 msgid "Cheatin&#8217; huh?"
 msgstr ""
 
-#: synchronized-post-publisher.php:234
+#: synchronized-post-publisher.php:238
 msgid ""
 "This post is part of a Synchronized Post Publisher group. Continuing will "
 "also publish all other posts within this group. Click OK to confirm and "
 "publish, or Cancel to return."
 msgstr ""
 
-#: synchronized-post-publisher.php:253
+#: synchronized-post-publisher.php:240
+msgid "Confirm you want to publish a total of %s from this group?"
+msgstr ""
+
+#: synchronized-post-publisher.php:241
+msgid "%s post"
+msgid_plural "%s posts"
+msgstr[0] ""
+msgstr[1] ""
+
+#: synchronized-post-publisher.php:265
+msgid "%s post published from group."
+msgid_plural "%s posts published from group."
+msgstr[0] ""
+msgstr[1] ""
+
+#: synchronized-post-publisher.php:273
 msgid "Post removed from group."
 msgstr ""
 
-#: synchronized-post-publisher.php:275
+#: synchronized-post-publisher.php:295
 msgid "Add New Group"
 msgstr ""
 
-#: synchronized-post-publisher.php:276
+#: synchronized-post-publisher.php:296
 msgid "Edit Group"
 msgstr ""
 
-#: synchronized-post-publisher.php:277
+#: synchronized-post-publisher.php:297
 msgid "New Group"
 msgstr ""
 
-#: synchronized-post-publisher.php:278
+#: synchronized-post-publisher.php:298
 msgid "Groups"
 msgstr ""
 
-#: synchronized-post-publisher.php:279
+#: synchronized-post-publisher.php:299
 msgid "View Group"
 msgstr ""
 
-#: synchronized-post-publisher.php:280
+#: synchronized-post-publisher.php:300
 msgid "Search Group"
 msgstr ""
 
-#: synchronized-post-publisher.php:281
+#: synchronized-post-publisher.php:301
 msgid "No groups found"
 msgstr ""
 
-#: synchronized-post-publisher.php:282
+#: synchronized-post-publisher.php:302
 msgid "No groups found in Trash"
 msgstr ""
 
-#: synchronized-post-publisher.php:285
+#: synchronized-post-publisher.php:305
 msgid "Group Image"
 msgstr ""
 
-#: synchronized-post-publisher.php:286
+#: synchronized-post-publisher.php:306
 msgid "Set Group Image"
 msgstr ""
 
-#: synchronized-post-publisher.php:287
+#: synchronized-post-publisher.php:307
 msgid "Remove Group Image"
 msgstr ""
 
-#: synchronized-post-publisher.php:288
+#: synchronized-post-publisher.php:308
 msgid "Use as Group Image"
 msgstr ""
 
-#: synchronized-post-publisher.php:289
+#: synchronized-post-publisher.php:309
 msgid "Filter group list"
 msgstr ""
 
-#: synchronized-post-publisher.php:290
+#: synchronized-post-publisher.php:310
 msgid "Groups list navigation"
 msgstr ""
 
-#: synchronized-post-publisher.php:291
+#: synchronized-post-publisher.php:311
 msgid "Groupe list"
+msgstr ""
+
+#: synchronized-post-publisher.php:378 synchronized-post-publisher.php:452
+msgid "You do not have permissions to perform this action."
+msgstr ""
+
+#: synchronized-post-publisher.php:379 synchronized-post-publisher.php:453
+msgid "Security Error"
 msgstr ""
 
 #. Author URI of the plugin/theme
@@ -251,17 +268,17 @@ msgctxt "column name"
 msgid "Created by"
 msgstr ""
 
-#: synchronized-post-publisher.php:273
+#: synchronized-post-publisher.php:293
 msgctxt "wp_spp_group post type name"
 msgid "Synchronize Post Publisher Groups"
 msgstr ""
 
-#: synchronized-post-publisher.php:274
+#: synchronized-post-publisher.php:294
 msgctxt "singular wp_spp_group post type name"
 msgid "Synchronize Post Publisher Group"
 msgstr ""
 
-#: synchronized-post-publisher.php:284
+#: synchronized-post-publisher.php:304
 msgctxt "wp_spp_group post type menu name"
 msgid "SPP Groups"
 msgstr ""
