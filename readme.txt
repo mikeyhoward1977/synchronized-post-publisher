@@ -87,17 +87,21 @@ Support is provided via the [WordPress.org support forums](https://wordpress.org
 
 == Screenshots ==
 
-1. The interface for managing a ticket Submission Form. Create as many forms as you need, choose from a number of fields and add to your web page with a simple shortcode
+1. SPP settings screen. Select which post types can be grouped
 
-2. What the default submission form might look like on your website when your customers log a support ticket. Theme in image is Twenty Seventeen
+2. Creating a new SPP group
 
-3. Suggested KB Article to resolve a ticket that a customer is in the process of submitted
+3. Adding a post to an SPP group
 
-4. The ticket overview screen a customer see's once their submission is completed
+4. A posts SPP group can be easily identified
 
-5. The edit ticket screen as seen by an agent
+5. Posts within an SPP group are easily identified on the posts list screen
 
-6. When a customer is accessing a KB Article that is restricted
+6. List of SPP groups
+
+7. An SPP group page where posts can be reviewed, removed and all posts within the group can be published with one click!
+
+8. Confirmation of how many posts were published
 
 == Changelog ==
 
