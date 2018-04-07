@@ -290,8 +290,8 @@ final class Synchronized_Post_Publisher {
     public function register_post_type( $hook ) {
 
         $labels = apply_filters( 'wp_spp_labels', array(
-            'name'                  => _x( 'Synchronize Post Publisher Groups', 'wp_spp_group post type name', 'synchronized-post-publisher' ),
-            'singular_name'         => _x( 'Synchronize Post Publisher Group', 'singular wp_spp_group post type name', 'synchronized-post-publisher' ),
+            'name'                  => _x( 'Synchronized Post Publisher Groups', 'wp_spp_group post type name', 'synchronized-post-publisher' ),
+            'singular_name'         => _x( 'Synchronized Post Publisher Group', 'singular wp_spp_group post type name', 'synchronized-post-publisher' ),
             'add_new_item'          => __( 'Add New Group', 'synchronized-post-publisher' ),
             'edit_item'             => __( 'Edit Group', 'synchronized-post-publisher' ),
             'new_item'              => __( 'New Group', 'synchronized-post-publisher' ),
