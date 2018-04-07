@@ -78,9 +78,44 @@ function wp_spp_add_meta_boxes( $post ) {
             'wp_spp_group_posts_metabox_callback',
             'wp_spp_group'
         );
+
+		$posts = wp_spp_get_posts_in_sync_group( $post->ID, array( 'posts_per_page' => 1 ) );
+
+		if ( ! empty( $posts ) )	{
+			add_meta_box(
+				'wp-spp-group-publish-metabox',
+				__( 'Publish Group Posts', 'synchronized-post-publisher' ),
+				'wp_spp_group_publish_metabox_callback',
+				'wp_spp_group',
+				'side'
+			);
+		}
+
     }
 } // wp_spp_add_meta_boxes
 add_action( 'add_meta_boxes_wp_spp_group', 'wp_spp_add_meta_boxes' );
+
+/**
+ * Renders the group publish posts metabox
+ *
+ * @since   1.0
+ * @param   object  $post   WP_Post object
+ */
+function wp_spp_group_publish_metabox_callback( $post )   {
+	$publish_url = wp_nonce_url( add_query_arg( array(
+		'post_type'     => 'wp_spp_group',
+		'wp_spp_action' => 'publish_group',
+		'spp_group_id'  => $post->ID
+	), admin_url( 'edit.php' ) ), 'spp-publish', 'spp_nonce' );
+	?>
+
+    <div id="wp_spp_publish_group" style="text-align: center;">
+        <span class="spp_publish_button">
+        	<a id="spp-publish-posts" href="<?php echo $publish_url; ?>" class="button button-primary"><?php _e( 'Publish all Group Posts', 'synchronized-post-publisher' ); ?></a>
+        </span>
+    </div>
+    <?php
+} // wp_spp_group_publish_metabox_callback
 
 /**
  * Renders the group posts metabox
@@ -116,11 +151,11 @@ function wp_spp_group_posts_metabox_callback( $post )   {
             <?php foreach( $group_posts as $group_post ) : ?>
                 <?php $post_type_object = get_post_type_object( $group_post->post_type ); ?>
                 <?php $post_author      = get_userdata( $group_post->post_author ); ?>
-                <?php $remove_url       = add_query_arg( array(
+                <?php $remove_url       = wp_nonce_url( add_query_arg( array(
 					'wp_spp_action' => 'remove_post',
 					'spp_post_id'   => $group_post->ID,
 					'spp_group_id'  => $post->ID
-				), admin_url() ); ?>
+				), admin_url() ), 'spp-remove-post', 'spp_nonce' ); ?>
 
                 <?php $actions = array(
                     'remove' => '<a href="' . $remove_url . '" class="delete" style="color: #a00;">' . __( 'Remove', 'synchronized-post-publisher' ) . '</a>'

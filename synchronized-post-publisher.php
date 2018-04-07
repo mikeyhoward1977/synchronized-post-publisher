@@ -174,6 +174,9 @@ final class Synchronized_Post_Publisher {
         add_action( 'init',                   array( self::$instance, 'register_post_type'                 ) );
         add_action( 'delete_post',            array( self::$instance, 'remove_group_association_on_delete' ) );
 		add_action( 'transition_post_status', array( self::$instance, 'publish_group_posts'         ), 10, 3 );
+
+		// Post actions
+		add_action( 'admin_init',             array( self::$instance, 'publish_posts'                      ) );
 		add_action( 'admin_init',             array( self::$instance, 'remove_post_from_group'             ) );
 
         // Scripts
@@ -225,13 +228,19 @@ final class Synchronized_Post_Publisher {
         // Use minified libraries if SCRIPT_DEBUG is turned off
         $suffix  = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
 
-        $can_group = ! empty( $post ) && is_object( $post ) && wp_spp_post_can_be_grouped( $post ) ? 1 : 0;
+        $can_group   = ! empty( $post ) && is_object( $post ) && wp_spp_post_can_be_grouped( $post ) ? 1 : 0;
+		$total_posts = 'wp_spp_group' == $typenow ? wp_spp_count_sync_group_posts( $post->ID ) : 0;
 
         wp_enqueue_script( 'wp-spp-admin-scripts', $js_dir . 'admin-scripts' . $suffix . '.js', array( 'jquery' ), WP_SPP_VERSION, false );
 
         wp_localize_script( 'wp-spp-admin-scripts', 'wp_spp_vars', array(
             'can_group'             => $can_group,
-            'confirm_group_publish' => __( 'This post is part of a Synchronized Post Publisher group. Continuing will also publish all other posts within this group. Click OK to confirm and publish, or Cancel to return.', 'synchronized-post-publisher' )
+            'confirm_group_publish' => __( 'This post is part of a Synchronized Post Publisher group. Continuing will also publish all other posts within this group. Click OK to confirm and publish, or Cancel to return.', 'synchronized-post-publisher' ),
+			'confirm_publish_all'   => sprintf(
+				__( 'Confirm you want to publish a total of %s from this group?', 'synchronized-post-publisher' ),
+				sprintf( _n( '%s post', '%s posts', $total_posts, 'synchronized-post-publisher' ), $total_posts )
+			),
+			'posts_in_group'        => $total_posts
         ) );
     } // load_admin_scripts
 
@@ -246,6 +255,17 @@ final class Synchronized_Post_Publisher {
 	public function admin_notices()	{
 
 		if ( isset( $_GET['wp-spp-notice'] ) )	{
+
+			if ( 'published_posts' == sanitize_text_field( $_GET['wp-spp-notice'] ) )	{
+
+				$total = isset( $_GET['spp_total'] ) ? (int) $_GET['spp_total'] : 0;
+
+				ob_start(); ?>
+				<div class="notice notice-success is-dismissible">
+					<p><?php printf( _n( '%s post published from group.', '%s posts published from group.', 'synchronized-post-publisher' ), $total ); ?></p>
+				</div>
+				<?php echo ob_get_clean();
+			}
 
 			if ( 'removed' == sanitize_text_field( $_GET['wp-spp-notice'] ) )	{
 				ob_start(); ?>
@@ -336,6 +356,50 @@ final class Synchronized_Post_Publisher {
  -- PUBLISH GROUP POSTS
 *****************************************/
 	/**
+     * When the Publish all Group Posts button is clicked, publish all posts in the group.
+     *
+     * @since   1.0
+     * @param	string  	$new_status		New post status.
+	 * @param	string  	$old_status		Old post status.
+	 * @param	WP_Post		$post       	Post object.
+     * @return  void
+     */
+    public function publish_posts()	{
+		if ( isset( $_GET['wp_spp_action'], $_GET['spp_group_id'] ) && 'publish_group' == sanitize_text_field( $_GET['wp_spp_action'] ) )	{
+
+			$group_id = absint( $_GET['spp_group_id'] );
+
+			if ( empty( $group_id ) )	{
+				return;
+			}
+
+			if ( ! isset( $_GET['spp_nonce']) || ! wp_verify_nonce($_GET['spp_nonce'], 'spp-publish') )	{
+				wp_die(
+					__( 'You do not have permissions to perform this action.', 'synchronized-post-publisher' ),
+					__( 'Security Error', 'synchronized-post-publisher' )
+				);
+			}
+
+			// Stop looping when publishing posts within the group
+			remove_action( 'transition_post_status', array( self::$instance, 'publish_group_posts' ), 10, 3 );
+	
+			$published_posts = wp_spp_publish_group_posts( $group_id );
+	
+			// Re-hook the action
+			add_action( 'transition_post_status', array( self::$instance, 'publish_group_posts' ), 10, 3 );
+
+			$redirect = add_query_arg( array(
+				'post_type'     => 'wp_spp_group',
+				'wp-spp-notice' => 'published_posts',
+				'spp_total'     => $published_posts
+			), admin_url( 'edit.php' ) );
+
+			wp_safe_redirect( $redirect );
+			exit;
+		}
+	} // publish_posts
+
+	/**
      * When a grouped post is published, publish all other posts in the group.
      *
      * @since   1.0
@@ -382,6 +446,13 @@ final class Synchronized_Post_Publisher {
 	 */
 	 public function remove_post_from_group()	{
 		 if ( isset( $_GET['wp_spp_action'] ) && 'remove_post' == sanitize_text_field( $_GET['wp_spp_action'] ) )	{
+
+			if ( ! isset( $_GET['spp_nonce']) || ! wp_verify_nonce($_GET['spp_nonce'], 'spp-remove-post') )	{
+				wp_die(
+					__( 'You do not have permissions to perform this action.', 'synchronized-post-publisher' ),
+					__( 'Security Error', 'synchronized-post-publisher' )
+				);
+			}
 
 			 $group_id = absint( $_GET['spp_group_id'] );
 			 $post_id  = absint( $_GET['spp_post_id'] );

@@ -1,9 +1,19 @@
 var wp_spp_vars;
 jQuery(document).ready(function ($) {
 
+	// When the Publish all Group Posts button is clicked
+	$('#spp-publish-posts').click( function(e)	{
+		var confirmPublishAll = confirm( wp_spp_vars.confirm_publish_all );
+
+		if (confirmPublishAll === false) {
+			e.preventDefault();
+			return;
+		}
+	});
+
     if ( '0' !== wp_spp_vars.can_group )    {
         // Add confirmation when Publish is clicked and the post is part of an SPP group
-        $('#publish').click( function (e)    {
+        $('#publish').click( function(e)    {
             if( '0' !== $('#wp_spp_post_with_group').val() )    {
                 var confirmPublish = confirm( wp_spp_vars.confirm_group_publish );
 
