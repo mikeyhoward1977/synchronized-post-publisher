@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Synchronized Post Publisher
- * Plugin URI: https://mikesplugins.co.uk/
+ * Plugin URI: 
  * Description: Automate the publishing of multiple posts and pages at the same time.
  * Version: 1.0
  * Date: 04 April 2018
