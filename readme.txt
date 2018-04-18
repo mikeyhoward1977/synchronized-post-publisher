@@ -7,7 +7,6 @@ Requires PHP: 5.4
 Stable tag: 1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
-Donate link: https://kb-support.com/donate-kb-support/
 
 Automate the publishing of multiple posts and pages at the same time.
 
@@ -107,7 +106,7 @@ Support is provided via the [WordPress.org support forums](https://wordpress.org
 
 = 1.0 =
 
-** Wednesday, 4th April 2018**
+**Wednesday, 18th April 2018**
 
 The initial release... Enjoy :)
 
