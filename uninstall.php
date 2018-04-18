@@ -46,7 +46,8 @@ $all_options = array(
 	'wp_spp_version_upgraded_from',
 	'wp_spp_post_types_enabled',
 	'wp_spp_delete_groups_on_publish',
-	'wp_spp_install_version'
+	'wp_spp_install_version',
+	'wp_spp_published_posts'
 );
 
 foreach( $all_options as $options )	{

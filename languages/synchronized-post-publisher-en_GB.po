@@ -4,11 +4,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Synchronized Post Publisher 1.0\n"
 "Report-Msgid-Bugs-To: https://mikesplugins.co.uk/\n"
-"POT-Creation-Date: 2018-04-07 13:06:12+00:00\n"
+"POT-Creation-Date: 2018-04-18 23:11:14+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2018-04-07 14:17+0100\n"
+"PO-Revision-Date: 2018-04-19 00:16+0100\n"
 "Language-Team: WP-Translations <wpt@wp-translations.org>\n"
 "X-Generator: Poedit 2.0.6\n"
 "X-Poedit-KeywordsList: __;_e;_x:1,2c;_ex:1,2c;_n:1,2;_nx:1,2,4c;_n_noop:1,2;"
@@ -139,7 +139,7 @@ msgstr ""
 msgid "Cheatin&#8217; huh?"
 msgstr "Cheatin&#8217; huh?"
 
-#: synchronized-post-publisher.php:238
+#: synchronized-post-publisher.php:240
 msgid ""
 "This post is part of a Synchronized Post Publisher group. Continuing will "
 "also publish all other posts within this group. Click OK to confirm and "
@@ -149,97 +149,115 @@ msgstr ""
 "also publish all other posts within this group. Click OK to confirm and "
 "publish, or Cancel to return."
 
-#: synchronized-post-publisher.php:240
+#: synchronized-post-publisher.php:242
 msgid "Confirm you want to publish a total of %s from this group?"
 msgstr "Confirm you want to publish a total of %s from this group?"
 
-#: synchronized-post-publisher.php:241
+#: synchronized-post-publisher.php:243
 msgid "%s post"
 msgid_plural "%s posts"
 msgstr[0] "%s post"
 msgstr[1] "%s posts"
 
-#: synchronized-post-publisher.php:265
+#: synchronized-post-publisher.php:267
 msgid "%s post published from group."
 msgid_plural "%s posts published from group."
 msgstr[0] "%s post published from group."
 msgstr[1] "%s posts published from group."
 
-#: synchronized-post-publisher.php:273
+#: synchronized-post-publisher.php:275
 msgid "Post removed from group."
 msgstr "Post removed from group."
 
-#: synchronized-post-publisher.php:295
+#: synchronized-post-publisher.php:338
+msgid ""
+"<strong>Nice!</strong> You've published over 15 posts using Synchronized "
+"Post Publisher which is absolutely awesome!"
+msgstr ""
+"<strong>Nice!</strong> You've published over 15 posts using Synchronised "
+"Post Publisher which is absolutely awesome!"
+
+#: synchronized-post-publisher.php:342
+msgid ""
+"Would you <strong>please</strong> do us a favor and leave a 5 star rating on "
+"WordPress.org? It only takes a minute and it <strong>really helps</strong> "
+"to motivate our developers and volunteers to continue working on new "
+"features and functionality. <a href=\"%1$s\" target=\"_blank\">Sure thing, "
+"you deserve it!</a>"
+msgstr ""
+"Would you <strong>please</strong> do us a favour and leave a 5 star rating "
+"on WordPress.org? It only takes a minute and it <strong>really helps</"
+"strong> to motivate our developers and volunteers to continue working on new "
+"features and functionality. <a href=\"%1$s\" target=\"_blank\">Sure thing, "
+"you deserve it!</a>"
+
+#: synchronized-post-publisher.php:364
 msgid "Add New Group"
 msgstr "Add New Group"
 
-#: synchronized-post-publisher.php:296
+#: synchronized-post-publisher.php:365
 msgid "Edit Group"
 msgstr "Edit Group"
 
-#: synchronized-post-publisher.php:297
+#: synchronized-post-publisher.php:366
 msgid "New Group"
 msgstr "New Group"
 
-#: synchronized-post-publisher.php:298
+#: synchronized-post-publisher.php:367
 msgid "Groups"
 msgstr "Groups"
 
-#: synchronized-post-publisher.php:299
+#: synchronized-post-publisher.php:368
 msgid "View Group"
 msgstr "View Group"
 
-#: synchronized-post-publisher.php:300
+#: synchronized-post-publisher.php:369
 msgid "Search Group"
 msgstr "Search Group"
 
-#: synchronized-post-publisher.php:301
+#: synchronized-post-publisher.php:370
 msgid "No groups found"
 msgstr "No groups found"
 
-#: synchronized-post-publisher.php:302
+#: synchronized-post-publisher.php:371
 msgid "No groups found in Trash"
 msgstr "No groups found in Trash"
 
-#: synchronized-post-publisher.php:305
+#: synchronized-post-publisher.php:374
 msgid "Group Image"
 msgstr "Group Image"
 
-#: synchronized-post-publisher.php:306
+#: synchronized-post-publisher.php:375
 msgid "Set Group Image"
 msgstr "Set Group Image"
 
-#: synchronized-post-publisher.php:307
+#: synchronized-post-publisher.php:376
 msgid "Remove Group Image"
 msgstr "Remove Group Image"
 
-#: synchronized-post-publisher.php:308
+#: synchronized-post-publisher.php:377
 msgid "Use as Group Image"
 msgstr "Use as Group Image"
 
-#: synchronized-post-publisher.php:309
+#: synchronized-post-publisher.php:378
 msgid "Filter group list"
 msgstr "Filter group list"
 
-#: synchronized-post-publisher.php:310
+#: synchronized-post-publisher.php:379
 msgid "Groups list navigation"
 msgstr "Groups list navigation"
 
-#: synchronized-post-publisher.php:311
+#: synchronized-post-publisher.php:380
 msgid "Groupe list"
 msgstr "Groupe list"
 
-#: synchronized-post-publisher.php:378 synchronized-post-publisher.php:452
+#: synchronized-post-publisher.php:447 synchronized-post-publisher.php:521
 msgid "You do not have permissions to perform this action."
 msgstr "You do not have permissions to perform this action."
 
-#: synchronized-post-publisher.php:379 synchronized-post-publisher.php:453
+#: synchronized-post-publisher.php:448 synchronized-post-publisher.php:522
 msgid "Security Error"
 msgstr "Security Error"
-
-#. Author URI of the plugin/theme
-msgid "https://mikesplugins.co.uk/"
-msgstr "https://mikesplugins.co.uk/"
 
 #. Description of the plugin/theme
 msgid "Automate the publishing of multiple posts and pages at the same time."
@@ -248,6 +266,10 @@ msgstr "Automate the publishing of multiple posts and pages at the same time."
 #. Author of the plugin/theme
 msgid "Mike Howard"
 msgstr "Mike Howard"
+
+#. Author URI of the plugin/theme
+msgid "https://mikesplugins.co.uk/"
+msgstr "https://mikesplugins.co.uk/"
 
 #. Tags of the plugin/theme
 msgid "posts, publish, publish posts, grouped posts, groups"
@@ -273,17 +295,17 @@ msgctxt "column name"
 msgid "Created by"
 msgstr "Created by"
 
-#: synchronized-post-publisher.php:293
+#: synchronized-post-publisher.php:362
 msgctxt "wp_spp_group post type name"
 msgid "Synchronized Post Publisher Groups"
 msgstr "Synchronised Post Publisher Groups"
 
-#: synchronized-post-publisher.php:294
+#: synchronized-post-publisher.php:363
 msgctxt "singular wp_spp_group post type name"
 msgid "Synchronized Post Publisher Group"
 msgstr "Synchronised Post Publisher Group"
 
-#: synchronized-post-publisher.php:304
+#: synchronized-post-publisher.php:373
 msgctxt "wp_spp_group post type menu name"
 msgid "SPP Groups"
 msgstr "SPP Groups"

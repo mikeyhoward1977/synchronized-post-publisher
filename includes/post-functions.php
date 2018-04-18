@@ -13,6 +13,38 @@
 if ( ! defined( 'ABSPATH' ) )
 	exit;
 
+
+/**
+ * Retrieve the total number of posts published via SPP.
+ *
+ * @since	1.1
+ * @return	int		Total number of posts published via SPP.
+ */
+function wp_spp_get_published_posts_count()	{
+	$total = get_option( 'wp_spp_published_posts', 0 );
+	$total = apply_filters( 'wp_spp_published_posts_count', $total );
+
+	return (int)$total;
+} // wp_spp_get_published_posts_count
+
+/**
+ * Increase total number of posts published via SPP.
+ *
+ * @since	1.1
+ * @param	int		$count	The count of posts to increase by
+ * @return	int		Total number of posts published via SPP.
+ */
+function wp_spp_increase_published_posts_count( $count = 0 )	{
+	$count = absint( $count );
+
+	$total = wp_spp_get_published_posts_count();
+	$total = $total + $count;
+
+	update_option( 'wp_spp_published_posts', (int)$total );
+
+	return $total;
+} // wp_spp_increase_published_posts_count
+
 /**
  * Post types to ignore.
  *
@@ -110,6 +142,8 @@ function wp_spp_publish_group_posts( $group_id )	{
 			wp_delete_post( $group_id, true );
 		}
 	}
+
+	wp_spp_increase_published_posts_count( $count );
 
 	return $count;
 } // wp_spp_publish_group_posts

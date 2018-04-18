@@ -39,3 +39,19 @@ function wp_spp_ajax_select_group_for_post()	{
 
 } // wp_spp_ajax_select_group_for_post
 add_action( 'wp_ajax_wp_spp_select_group_for_post', 'wp_spp_ajax_select_group_for_post' );
+
+/**
+ * Dismiss admin notices.
+ *
+ * @since	1.1
+ * @return	void
+ */
+function wp_spp_ajax_dismiss_admin_notice()	{
+
+	$notice = sanitize_text_field( $_POST['notice'] );
+    wp_spp_dismiss_notice( $notice );
+
+	wp_send_json_success();
+
+} // wp_spp_ajax_dismiss_admin_notice
+add_action( 'wp_ajax_wp_spp_dismiss_notice', 'wp_spp_ajax_dismiss_admin_notice' );

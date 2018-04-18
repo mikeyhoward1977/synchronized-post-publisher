@@ -146,6 +146,7 @@ final class Synchronized_Post_Publisher {
 	 */
 	private function includes()	{
 
+		require_once WP_SPP_PLUGIN_DIR . 'includes/misc-functions.php';
 		require_once WP_SPP_PLUGIN_DIR . 'includes/post-functions.php';
         require_once WP_SPP_PLUGIN_DIR . 'includes/ajax-functions.php';
 
@@ -169,6 +170,7 @@ final class Synchronized_Post_Publisher {
 	private function hooks()	{
 		// Admin notices
 		add_action( 'admin_notices',          array( self::$instance, 'admin_notices'                      ) );
+		add_action( 'plugins_loaded',         array( self::$instance, 'request_wp_5star_rating'            ) );
 
         // Posts
         add_action( 'init',                   array( self::$instance, 'register_post_type'                 ) );
@@ -250,7 +252,7 @@ final class Synchronized_Post_Publisher {
 	/**
 	 * Displays admin notices.
 	 *
-	 * @since	1.2
+	 * @since	1.0
 	 */
 	public function admin_notices()	{
 
@@ -278,6 +280,73 @@ final class Synchronized_Post_Publisher {
 		}
 
 	} // admin_notices
+
+	/**
+     * Request 5 star rating after 15 posts have been published via SPP.
+     *
+     * After 15 posts are published via SPP we ask the admin for a 5 star rating on WordPress.org
+     *
+     * @since	1.1
+     * @return	void
+     */
+    public function request_wp_5star_rating() {
+
+        if ( ! current_user_can( 'administrator' ) || wp_spp_is_notice_dismissed( 'wp_spp_request_wp_5star_rating' ) )	{
+            return;
+        }
+
+        $wpp_published = wp_spp_get_published_posts_count();
+
+        if ( $wpp_published > 15 ) {
+            add_action( 'admin_notices', array( self::$instance, 'admin_wp_5star_rating_notice' ) );
+        }
+
+    } // request_wp_5star_rating
+
+	/**
+     * Admin WP Rating Request Notice
+     *
+     * @since	1.1
+     * @return	void
+    */
+    function admin_wp_5star_rating_notice() {
+        ob_start(); ?>
+
+		<script>
+		jQuery(document).ready(function ($) {
+			// Dismiss admin notices
+			$( document ).on( 'click', '.notice-wp-spp-dismiss .notice-dismiss', function () {
+				var notice = $( this ).closest( '.notice-wp-spp-dismiss' ).data( 'notice' );
+
+				var postData         = {
+					notice    : notice,
+					action       : 'wp_spp_dismiss_notice'
+				};
+
+				$.ajax({
+					type: 'POST',
+					dataType: 'json',
+					data: postData,
+					url: ajaxurl
+				});
+			});
+		});
+		</script>
+
+        <div class="updated notice notice-wp-spp-dismiss is-dismissible" data-notice="wp_spp_request_wp_5star_rating">
+            <p>
+                <?php _e( "<strong>Nice!</strong> You've published over 15 posts using Synchronized Post Publisher which is absolutely awesome!", 'synchronized-post-publisher' ); ?>
+            </p>
+            <p>
+                <?php printf(
+                    __( 'Would you <strong>please</strong> do us a favor and leave a 5 star rating on WordPress.org? It only takes a minute and it <strong>really helps</strong> to motivate our developers and volunteers to continue working on new features and functionality. <a href="%1$s" target="_blank">Sure thing, you deserve it!</a>', 'synchronized-post-publisher' ),
+                    'https://wordpress.org/support/plugin/synchronized-post-publisher/reviews/'
+                ); ?>
+            </p>
+        </div>
+
+        <?php echo ob_get_clean();
+    } // admin_wp_5star_rating_notice
 
 /*****************************************
  -- CUSTOM POST TYPE
