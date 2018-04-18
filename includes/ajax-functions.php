@@ -23,8 +23,8 @@ if ( ! defined( 'ABSPATH' ) )
  */
 function wp_spp_ajax_select_group_for_post()	{
 
-    $post_id  = $_POST['post_id'];
-    $group_id = $_POST['group_id'];
+    $post_id  = absint( $_POST['post_id'] );
+    $group_id = absint( $_POST['group_id'] );
 
     if ( '0' == $group_id ) {
         wp_spp_remove_post_from_sync_group( $post_id );

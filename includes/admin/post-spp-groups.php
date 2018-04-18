@@ -95,7 +95,7 @@ function wp_spp_add_group_filters() {
     global $typenow;
 
     if ( in_array( $typenow, wp_spp_group_post_types() ) )  {
-		$post_type     = isset( $_GET['post_type'] ) ? $_GET['post_type'] : 'post';
+		$post_type     = isset( $_GET['post_type'] ) ? sanitize_text_field( $_GET['post_type'] ) : 'post';
         $group_options = array();
         $groups        = wp_spp_get_post_sync_groups();
 
@@ -119,7 +119,7 @@ function wp_spp_add_group_filters() {
                 echo "<option value=''>" . __( 'All SPP groups', 'synchronized-post-publisher' ) . "</option>";
 
                 foreach( $group_options as $option_id => $option_value )  {
-                    $selected = isset( $_GET['spp_group'] ) && $_GET['spp_group'] == $option_id ? ' selected="selected"' : '';
+                    $selected = isset( $_GET['spp_group'] ) && absint( $_GET['spp_group'] ) == $option_id ? ' selected="selected"' : '';
 					echo '<option value="' . esc_attr( $option_id ) . '"' . $selected . '>' . $option_value . '</option>';
                 }
 
@@ -141,7 +141,7 @@ function wp_spp_filter_posts_by_group( $query )	{
 	}
 
 	$query->set( 'meta_key', '_wp_spp_sync_group' );
-	$query->set( 'meta_value', $_GET['spp_group'] );
+	$query->set( 'meta_value', absint( $_GET['spp_group'] ) );
 	$query->set( 'meta_type', 'NUMERIC' );
 } // wp_spp_filter_posts_by_group
 add_action( 'pre_get_posts', 'wp_spp_filter_posts_by_group' );
