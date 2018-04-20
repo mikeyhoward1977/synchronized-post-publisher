@@ -291,7 +291,21 @@ final class Synchronized_Post_Publisher {
      */
     public function request_wp_5star_rating() {
 
-        if ( ! current_user_can( 'administrator' ) || wp_spp_is_notice_dismissed( 'wp_spp_request_wp_5star_rating' ) )	{
+        global $typenow, $pagenow;
+
+        $allowed_types   = wp_spp_group_post_types();
+        $allowed_types[] = 'wp_spp_group';
+        $allowed_pages   = array( 'edit.php', 'post.php', 'post-new.php', 'index.php' );
+
+        if ( ! current_user_can( 'administrator' ) )	{
+            return;
+        }
+
+        if ( ! in_array( $typenow, $allowed_types ) && ! in_array( $pagenow, $allowed_pages ) ) {
+            return;
+        }
+
+        if ( wp_spp_is_notice_dismissed( 'wp_spp_request_wp_5star_rating' ) )   {
             return;
         }
 
@@ -335,7 +349,7 @@ final class Synchronized_Post_Publisher {
 
         <div class="updated notice notice-wp-spp-dismiss is-dismissible" data-notice="wp_spp_request_wp_5star_rating">
             <p>
-                <?php _e( "<strong>Nice!</strong> You've published over 15 posts using Synchronized Post Publisher which is absolutely awesome!", 'synchronized-post-publisher' ); ?>
+                <?php _e( "<strong>Nice!</strong> You've published over 15 posts using <strong>Synchronized Post Publisher</strong> which is absolutely awesome!", 'synchronized-post-publisher' ); ?>
             </p>
             <p>
                 <?php printf(
@@ -496,6 +510,9 @@ final class Synchronized_Post_Publisher {
 		}
 
 		wp_spp_remove_post_from_sync_group( $post->ID );
+
+        // Increment published post count
+        wp_spp_increase_published_posts_count( 1 );
 
 		// Stop looping when publishing posts within the group
 		remove_action( 'transition_post_status', array( self::$instance, 'publish_group_posts' ), 10, 3 );
