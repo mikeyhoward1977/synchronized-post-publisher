@@ -113,9 +113,6 @@ function wp_spp_publish_group_posts( $group_id )	{
 
 	// Bail if there are no other posts in the group
 	$posts_in_group = wp_spp_get_posts_in_sync_group( $group_id );
-	if ( empty( $posts_in_group ) )	{
-		return;
-	}
 
 	$count = 0;
 
