@@ -112,6 +112,8 @@ function wp_spp_sanitize_post_types_enabled_setting( $input )	{
 		$input = array_map( 'sanitize_text_field', $input );
 	}
 
+    add_settings_error( 'wp-spp-notices', '', __( 'Settings updated.', 'synchronized-post-publisher' ), 'updated' );
+
 	return $input;
 } // wp_spp_sanitize_post_types_enabled_setting
 

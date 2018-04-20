@@ -279,6 +279,8 @@ final class Synchronized_Post_Publisher {
 
 		}
 
+        settings_errors( 'wp-spp-notices' );
+
 	} // admin_notices
 
 	/**
