@@ -295,7 +295,7 @@ final class Synchronized_Post_Publisher {
 
         $allowed_types   = wp_spp_group_post_types();
         $allowed_types[] = 'wp_spp_group';
-        $allowed_pages   = array( 'edit.php', 'post.php', 'post-new.php', 'index.php' );
+        $allowed_pages   = array( 'edit.php', 'post.php', 'post-new.php', 'index.php', 'plugins.php' );
 
         if ( ! current_user_can( 'administrator' ) )	{
             return;
