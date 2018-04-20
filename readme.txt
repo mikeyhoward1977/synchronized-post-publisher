@@ -104,6 +104,15 @@ Support is provided via the [WordPress.org support forums](https://wordpress.org
 
 == Changelog ==
 
+= 1.1 =
+
+**DATE HERE**
+
+* **Fix**: Corrected colspan value within the SPP group post list
+* **Fix**: Settings updated notice was not being displayed when SPP settings were saved
+* **Fix**: *Delete Groups on Publish* setting was not honored if a single post existed in the group and it was publised from the post page
+* **Tweak**: Added request for WordPress.org rating
+
 = 1.0 =
 
 **Wednesday, 18th April 2018**
