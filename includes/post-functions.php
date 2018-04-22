@@ -111,12 +111,11 @@ function wp_spp_post_can_be_grouped( $post )	{
  */
 function wp_spp_publish_group_posts( $group_id )	{
 
-	// Bail if there are no other posts in the group
 	$posts_in_group = wp_spp_get_posts_in_sync_group( $group_id );
 
 	$count = 0;
 
-	// Publish the remaining posts
+	// Publish the posts
 	foreach( $posts_in_group as $post_id )	{
 		$type   = get_post_type( $post_id );
 		$status = get_post_status( $post_id );
