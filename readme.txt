@@ -12,7 +12,7 @@ Automate the publishing of multiple posts and pages at the same time.
 
 == Description ==
 
-Synchronized Post Publisher (SPP) for WordPress, allows you to group pages and posts (of any type) together and publish them all simutaneously.
+Synchronized Post Publisher (SPP) for WordPress, allows you to group pages and posts (of any type) together and publish them all simultaneously.
 
 Let's say you're about to release a new product, or an update to an existing one. This product may need product page, a release post and maybe even some documentation.
 
