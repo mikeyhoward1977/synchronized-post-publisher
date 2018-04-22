@@ -78,7 +78,7 @@ function wp_spp_group_post_types()	{
  * @return	array	Array of post types which can be grouped
  */
 function wp_spp_group_post_statuses()	{
-	$post_statuses = array( 'auto-draft', 'draft', 'pending' );
+	$post_statuses = array( 'auto-draft', 'draft', 'pending', 'future', 'private' );
 	$post_statuses = apply_filters( 'wp_spp_group_post_statuses', $post_statuses );
 
 	return $post_statuses;
