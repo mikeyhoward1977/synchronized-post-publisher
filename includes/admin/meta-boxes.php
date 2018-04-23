@@ -143,7 +143,7 @@ function wp_spp_group_posts_metabox_callback( $post )   {
         <?php if ( empty( $group_posts ) ) : ?>
             
             <tr>
-                <td colspan="4"><?php _e( 'No posts within this group.', 'synchronized-post-publisher' ); ?></td>
+                <td colspan="5"><?php _e( 'No posts within this group.', 'synchronized-post-publisher' ); ?></td>
             </tr>
 
         <?php else : ?>

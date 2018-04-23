@@ -4,7 +4,7 @@ Tags: posts, publish, publish posts, grouped posts, groups
 Requires at least: 4.1
 Tested up to: 4.9.5
 Requires PHP: 5.4
-Stable tag: 1.0
+Stable tag: 1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -12,7 +12,7 @@ Automate the publishing of multiple posts and pages at the same time.
 
 == Description ==
 
-Synchronized Post Publisher (SPP) for WordPress, allows you to group pages and posts (of any type) together and publish them all simutaneously.
+Synchronized Post Publisher (SPP) for WordPress, allows you to group pages and posts (of any type) together and publish them all simultaneously.
 
 Let's say you're about to release a new product, or an update to an existing one. This product may need product page, a release post and maybe even some documentation.
 
@@ -103,6 +103,19 @@ Support is provided via the [WordPress.org support forums](https://wordpress.org
 8. Confirmation of how many posts were published
 
 == Changelog ==
+
+= 1.1 =
+
+**Monday, 23rd April 2018**
+
+* **New**: Added support for the `future` and `private` post statuses
+* **Fix**: Corrected colspan value within the SPP group post list
+* **Fix**: Settings updated notice was not being displayed when SPP settings were saved
+* **Fix**: *Delete Groups on Publish* setting was not honored if a single post existed in the group and it was publised from the post page
+* **Tweak**: Added request for WordPress.org rating
+* **Tweak**: Spelling correction within description
+* **Tweak**: Updated code comments
+* **Dev**: Added hooks during SPP post publishing process - `wp_spp_before_publish_group_posts`, `wp_spp_publish_group_posts`, `wp_spp_before_publish_group_post`, `wp_spp_publish_group_post`
 
 = 1.0 =
 

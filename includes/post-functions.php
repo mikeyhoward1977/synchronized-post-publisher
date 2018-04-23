@@ -13,6 +13,38 @@
 if ( ! defined( 'ABSPATH' ) )
 	exit;
 
+
+/**
+ * Retrieve the total number of posts published via SPP.
+ *
+ * @since	1.1
+ * @return	int		Total number of posts published via SPP.
+ */
+function wp_spp_get_published_posts_count()	{
+	$total = get_option( 'wp_spp_published_posts', 0 );
+	$total = apply_filters( 'wp_spp_published_posts_count', $total );
+
+	return (int)$total;
+} // wp_spp_get_published_posts_count
+
+/**
+ * Increase total number of posts published via SPP.
+ *
+ * @since	1.1
+ * @param	int		$count	The count of posts to increase by
+ * @return	int		Total number of posts published via SPP.
+ */
+function wp_spp_increase_published_posts_count( $count = 0 )	{
+	$count = absint( $count );
+
+	$total = wp_spp_get_published_posts_count();
+	$total = $total + $count;
+
+	update_option( 'wp_spp_published_posts', (int)$total );
+
+	return $total;
+} // wp_spp_increase_published_posts_count
+
 /**
  * Post types to ignore.
  *
@@ -46,7 +78,7 @@ function wp_spp_group_post_types()	{
  * @return	array	Array of post types which can be grouped
  */
 function wp_spp_group_post_statuses()	{
-	$post_statuses = array( 'auto-draft', 'draft', 'pending' );
+	$post_statuses = array( 'auto-draft', 'draft', 'pending', 'future', 'private' );
 	$post_statuses = apply_filters( 'wp_spp_group_post_statuses', $post_statuses );
 
 	return $post_statuses;
@@ -79,15 +111,20 @@ function wp_spp_post_can_be_grouped( $post )	{
  */
 function wp_spp_publish_group_posts( $group_id )	{
 
-	// Bail if there are no other posts in the group
 	$posts_in_group = wp_spp_get_posts_in_sync_group( $group_id );
-	if ( empty( $posts_in_group ) )	{
-		return;
-	}
 
 	$count = 0;
 
-	// Publish the remaining posts
+    /**
+     * Hooks in immediately before the posts in the group are published.
+     *
+     * @since   1.1
+     * @param   int     $group_id       The SPP group post ID
+     * @param   array   $posts_in_group Array of post ID's within the group
+     */
+    do_action( 'wp_spp_before_publish_group_posts', $group_id, $posts_in_group );
+
+	// Publish the posts
 	foreach( $posts_in_group as $post_id )	{
 		$type   = get_post_type( $post_id );
 		$status = get_post_status( $post_id );
@@ -96,9 +133,27 @@ function wp_spp_publish_group_posts( $group_id )	{
 			continue;
 		}
 
+        /**
+         * Hooks in immediately before an individual post in the group is published.
+         *
+         * @since   1.1
+         * @param   int     $group_id   The SPP group post ID
+         * @param   int     $post_id    ID of current post being published
+         */
+        do_action( 'wp_spp_before_publish_group_post', $group_id, $post_id );
+
 		if ( wp_update_post( array( 'ID' => $post_id, 'post_status' => 'publish' ) ) )	{
 			$count++;
 			wp_spp_remove_post_from_sync_group( $post_id );
+
+            /**
+             * Hooks in immediately after an individual post in the group has been published.
+             *
+             * @since   1.1
+             * @param   int     $group_id   The SPP group post ID
+             * @param   int     $post_id    ID of current post being published
+             */
+            do_action( 'wp_spp_publish_group_post', $group_id, $post_id );
 		}
 	}
 
@@ -110,6 +165,18 @@ function wp_spp_publish_group_posts( $group_id )	{
 			wp_delete_post( $group_id, true );
 		}
 	}
+
+    /**
+     * Hooks in immediately after the posts in the group have been published.
+     *
+     * @since   1.1
+     * @param   int     $group_id       The SPP group post ID
+     * @param   array   $posts_in_group Array of post ID's within the group
+     * @param   int     $count          Count of posts published during this process
+     */
+    do_action( 'wp_spp_publish_group_posts', $group_id, $posts_in_group, $count );
+
+	wp_spp_increase_published_posts_count( $count );
 
 	return $count;
 } // wp_spp_publish_group_posts

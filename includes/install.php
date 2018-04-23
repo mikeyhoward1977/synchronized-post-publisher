@@ -71,6 +71,7 @@ function wp_spp_run_install() {
 	update_option( 'wp_spp_version', WP_SPP_VERSION );
 	add_option( 'wp_spp_install_version', WP_SPP_VERSION, '', 'no' );
 	add_option( 'wp_spp_installed', current_time( 'mysql' ), '', 'no' );
+	add_option( 'wp_spp_published_posts', 0 );
 
 	// Bail if activating from network, or bulk
 	if ( is_network_admin() || isset( $_GET['activate-multi'] ) ) {
