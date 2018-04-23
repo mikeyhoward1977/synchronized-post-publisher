@@ -30,7 +30,7 @@
  * @package		WP_SPP
  * @category	Core
  * @author		Mike Howard
- * @version		1.0
+ * @version		1.1
  */
 
 // Exit if accessed directly.
@@ -120,7 +120,7 @@ final class Synchronized_Post_Publisher {
 	private function setup_constants()	{
 
 		if ( ! defined( 'WP_SPP_VERSION' ) )	{
-			define( 'WP_SPP_VERSION', '1.0' );
+			define( 'WP_SPP_VERSION', '1.1' );
 		}
 
 		if ( ! defined( 'WP_SPP_PLUGIN_DIR' ) )	{
@@ -171,6 +171,9 @@ final class Synchronized_Post_Publisher {
 		// Admin notices
 		add_action( 'admin_notices',          array( self::$instance, 'admin_notices'                      ) );
 		add_action( 'plugins_loaded',         array( self::$instance, 'request_wp_5star_rating'            ) );
+
+        // Upgrades
+        add_action( 'admin_init',             array( self::$instance, 'upgrades'                           ) );
 
         // Posts
         add_action( 'init',                   array( self::$instance, 'register_post_type'                 ) );
@@ -363,6 +366,32 @@ final class Synchronized_Post_Publisher {
 
         <?php echo ob_get_clean();
     } // admin_wp_5star_rating_notice
+
+/*****************************************
+ -- UPGRADE PROCEDURES
+*****************************************/
+    /**
+     * Perform automatic database upgrades when necessary
+     *
+     * @since	1.1
+     * @return	void
+    */
+    public function upgrades() {
+
+        $did_upgrade = false;
+        $spp_version = preg_replace( '/[^0-9.].*/', '', get_option( 'wp_spp_version' ) );
+
+        if ( version_compare( $spp_version, WP_SPP_VERSION, '<' ) )	{
+            // Let us know that an upgrade has happened
+            $did_upgrade = true;
+        }
+
+        if ( $did_upgrade )	{
+            update_option( 'wp_spp_version_upgraded_from', $spp_version );
+            update_option( 'wp_spp_version', preg_replace( '/[^0-9.].*/', '', WP_SPP_VERSION ) );
+        }
+
+    } // upgrades
 
 /*****************************************
  -- CUSTOM POST TYPE
