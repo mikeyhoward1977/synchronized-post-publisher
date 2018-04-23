@@ -115,7 +115,7 @@ Support is provided via the [WordPress.org support forums](https://wordpress.org
 * **Tweak**: Added request for WordPress.org rating
 * **Tweak**: Spelling correction within description
 * **Tweak**: Updated code comments
-* **Dev**: Added hooks during SPP post publishing process - `wp_spp_before_publish_group_posts`, `wp_spp_before_publish_group_post`, `wp_spp_publish_group_post`, `wp_spp_publish_group_post`
+* **Dev**: Added hooks during SPP post publishing process - `wp_spp_before_publish_group_posts`, `wp_spp_publish_group_posts`, `wp_spp_before_publish_group_post`, `wp_spp_publish_group_post`
 
 = 1.0 =
 
