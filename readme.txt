@@ -2,9 +2,9 @@
 Contributors: mikeyhoward1977
 Tags: posts, publish, publish posts, grouped posts, groups
 Requires at least: 4.1
-Tested up to: 4.9.5
+Tested up to: 4.9.6
 Requires PHP: 5.4
-Stable tag: 1.1
+Stable tag: 1.1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -19,6 +19,8 @@ Let's say you're about to release a new product, or an update to an existing one
 SPP enables you to create all of the above in advance and publish them all at the same time with minimal effort. Create all your documentation and your release post and add them to an SPP group. When you're ready to publish your product, all these posts will be published at the same time.
 
 Sure, there are other ways to achieve this. For example, you could visit each post individually and publish it, or you could visit the edit post page for each post type and publish via Quick Edit, but it's just not as quick and seamless as the Synchronized Post Publisher for WordPress.
+
+Works with all ecommerce plugins such as WooCommerce and Easy Digital Downloads.
 
 **Follow this plugin on [GitHub](https://github.com/mikeyhoward1977/synchronized-post-publisher)**
 
@@ -103,6 +105,12 @@ Support is provided via the [WordPress.org support forums](https://wordpress.org
 8. Confirmation of how many posts were published
 
 == Changelog ==
+
+= 1.1.1 =
+
+**Monday, 21st May 2018**
+
+**Tweak**: Tested up to WordPress 4.9.6
 
 = 1.1 =
 
