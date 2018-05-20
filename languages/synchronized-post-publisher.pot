@@ -2,9 +2,9 @@
 # This file is distributed under the GPL2.
 msgid ""
 msgstr ""
-"Project-Id-Version: Synchronized Post Publisher 1.0\n"
+"Project-Id-Version: Synchronized Post Publisher 1.1.1\n"
 "Report-Msgid-Bugs-To: https://mikesplugins.co.uk/\n"
-"POT-Creation-Date: 2018-04-18 23:11:14+00:00\n"
+"POT-Creation-Date: 2018-05-20 21:59:36+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -133,44 +133,48 @@ msgid ""
 "successfully published."
 msgstr ""
 
+#: includes/admin/settings.php:115
+msgid "Settings updated."
+msgstr ""
+
 #: synchronized-post-publisher.php:98 synchronized-post-publisher.php:110
 msgid "Cheatin&#8217; huh?"
 msgstr ""
 
-#: synchronized-post-publisher.php:240
+#: synchronized-post-publisher.php:243
 msgid ""
 "This post is part of a Synchronized Post Publisher group. Continuing will "
 "also publish all other posts within this group. Click OK to confirm and "
 "publish, or Cancel to return."
 msgstr ""
 
-#: synchronized-post-publisher.php:242
+#: synchronized-post-publisher.php:245
 msgid "Confirm you want to publish a total of %s from this group?"
 msgstr ""
 
-#: synchronized-post-publisher.php:243
+#: synchronized-post-publisher.php:246
 msgid "%s post"
 msgid_plural "%s posts"
 msgstr[0] ""
 msgstr[1] ""
 
-#: synchronized-post-publisher.php:267
+#: synchronized-post-publisher.php:270
 msgid "%s post published from group."
 msgid_plural "%s posts published from group."
 msgstr[0] ""
 msgstr[1] ""
 
-#: synchronized-post-publisher.php:275
+#: synchronized-post-publisher.php:278
 msgid "Post removed from group."
 msgstr ""
 
-#: synchronized-post-publisher.php:338
+#: synchronized-post-publisher.php:357
 msgid ""
-"<strong>Nice!</strong> You've published over 15 posts using Synchronized "
-"Post Publisher which is absolutely awesome!"
+"<strong>Nice!</strong> You've published over 15 posts using "
+"<strong>Synchronized Post Publisher</strong> which is absolutely awesome!"
 msgstr ""
 
-#: synchronized-post-publisher.php:342
+#: synchronized-post-publisher.php:361
 msgid ""
 "Would you <strong>please</strong> do us a favor and leave a 5 star rating "
 "on WordPress.org? It only takes a minute and it <strong>really "
@@ -179,71 +183,71 @@ msgid ""
 "target=\"_blank\">Sure thing, you deserve it!</a>"
 msgstr ""
 
-#: synchronized-post-publisher.php:364
+#: synchronized-post-publisher.php:409
 msgid "Add New Group"
 msgstr ""
 
-#: synchronized-post-publisher.php:365
+#: synchronized-post-publisher.php:410
 msgid "Edit Group"
 msgstr ""
 
-#: synchronized-post-publisher.php:366
+#: synchronized-post-publisher.php:411
 msgid "New Group"
 msgstr ""
 
-#: synchronized-post-publisher.php:367
+#: synchronized-post-publisher.php:412
 msgid "Groups"
 msgstr ""
 
-#: synchronized-post-publisher.php:368
+#: synchronized-post-publisher.php:413
 msgid "View Group"
 msgstr ""
 
-#: synchronized-post-publisher.php:369
+#: synchronized-post-publisher.php:414
 msgid "Search Group"
 msgstr ""
 
-#: synchronized-post-publisher.php:370
+#: synchronized-post-publisher.php:415
 msgid "No groups found"
 msgstr ""
 
-#: synchronized-post-publisher.php:371
+#: synchronized-post-publisher.php:416
 msgid "No groups found in Trash"
 msgstr ""
 
-#: synchronized-post-publisher.php:374
+#: synchronized-post-publisher.php:419
 msgid "Group Image"
 msgstr ""
 
-#: synchronized-post-publisher.php:375
+#: synchronized-post-publisher.php:420
 msgid "Set Group Image"
 msgstr ""
 
-#: synchronized-post-publisher.php:376
+#: synchronized-post-publisher.php:421
 msgid "Remove Group Image"
 msgstr ""
 
-#: synchronized-post-publisher.php:377
+#: synchronized-post-publisher.php:422
 msgid "Use as Group Image"
 msgstr ""
 
-#: synchronized-post-publisher.php:378
+#: synchronized-post-publisher.php:423
 msgid "Filter group list"
 msgstr ""
 
-#: synchronized-post-publisher.php:379
+#: synchronized-post-publisher.php:424
 msgid "Groups list navigation"
 msgstr ""
 
-#: synchronized-post-publisher.php:380
+#: synchronized-post-publisher.php:425
 msgid "Groupe list"
 msgstr ""
 
-#: synchronized-post-publisher.php:447 synchronized-post-publisher.php:521
+#: synchronized-post-publisher.php:492 synchronized-post-publisher.php:569
 msgid "You do not have permissions to perform this action."
 msgstr ""
 
-#: synchronized-post-publisher.php:448 synchronized-post-publisher.php:522
+#: synchronized-post-publisher.php:493 synchronized-post-publisher.php:570
 msgid "Security Error"
 msgstr ""
 
@@ -283,17 +287,17 @@ msgctxt "column name"
 msgid "Created by"
 msgstr ""
 
-#: synchronized-post-publisher.php:362
+#: synchronized-post-publisher.php:407
 msgctxt "wp_spp_group post type name"
 msgid "Synchronized Post Publisher Groups"
 msgstr ""
 
-#: synchronized-post-publisher.php:363
+#: synchronized-post-publisher.php:408
 msgctxt "singular wp_spp_group post type name"
 msgid "Synchronized Post Publisher Group"
 msgstr ""
 
-#: synchronized-post-publisher.php:373
+#: synchronized-post-publisher.php:418
 msgctxt "wp_spp_group post type menu name"
 msgid "SPP Groups"
 msgstr ""
