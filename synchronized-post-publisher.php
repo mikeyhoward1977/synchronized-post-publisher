@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Synchronized Post Publisher
  * Plugin URI: 
- * Description: Automate the publishing of multiple posts and pages at the same time.
+ * Description: Automate the publishing of multiple documents, posts and pages at the same time.
  * Version: 1.1.1
  * Date: 04 April 2018
  * Author: Mike Howard
@@ -12,7 +12,7 @@
  * License: GPL2
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * GitHub Plugin URI: https://github.com/mikeyhoward1977/wp-synchronized-post-publisher
- * Tags: posts, publish, publish posts, grouped posts, groups
+ * Tags: documentation, posts, publish, publish posts, grouped posts
  *
  *
  * Synchronized_Post_Publisher is free software; you can redistribute it and/or modify

@@ -1,6 +1,6 @@
 === Synchronized Post Publisher ===
 Contributors: mikeyhoward1977
-Tags: posts, publish, publish posts, grouped posts, groups
+Tags: documentation, posts, publish, publish posts, grouped posts
 Requires at least: 4.1
 Tested up to: 4.9.6
 Requires PHP: 5.4
@@ -8,7 +8,7 @@ Stable tag: 1.1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Automate the publishing of multiple posts and pages at the same time.
+Automate the publishing of multiple documents, posts and pages at the same time.
 
 == Description ==
 
