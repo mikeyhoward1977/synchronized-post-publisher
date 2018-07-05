@@ -48,9 +48,15 @@ add_action( 'admin_init', 'wp_spp_register_settings' );
  * @since	1.0
  */
 function wp_spp_settings_page()	{
-	$post_types    = get_post_types( array( 'public' => true ), 'objects' );
-	$enabled_types = get_option( 'wp_spp_post_types_enabled', array() );
-	$options       = array();
+	$post_types        = get_post_types( array( 'public' => true ), 'objects' );
+	$enabled_types     = get_option( 'wp_spp_post_types_enabled', array() );
+	$options           = array();
+	$mc_connected      = wp_spp_mc_is_connected();
+	$mc_field_type     = $mc_connected ? 'password'             : 'text';
+	$mc_field_readonly = $mc_connected ? ' readonly="readonly"' : '';
+	$mc_disconnect_url = wp_nonce_url( add_query_arg( array(
+		'wp-spp-action' => 'disconnect-mailchimp'
+	), admin_url() ), 'disconnect-mc', 'wp-spp-nonce' );
 
 	foreach( $post_types as $post_type )	{
 
@@ -93,14 +99,17 @@ function wp_spp_settings_page()	{
                 <tr valign="top">
                     <th scope="row"><?php _e( 'MailChimp API Key', 'synchronized-post-publisher' ); ?></th>
                     <td>
-                        <input type="checkbox" name="wp_spp_mc_api_key" value="1"<?php checked( 1, get_option( 'wp_spp_mc_api_key', 0 ) ); ?> />
+                        <input type="<?php echo $mc_field_type; ?>" name="wp_spp_mc_api_key" class="regular-text" value="<?php echo wp_spp_mc_get_api(); ?>"<?php echo $mc_field_readonly; ?> />
                         <p class="description">
-                            <?php if ( kbs_mc_is_connected() ) {
-                                _e( 'Successfully connected to MailChimp', 'synchronized-post-publisher' );
+                            <?php if ( $mc_connected ) {
+                                printf(
+									__( 'Successfully connected to MailChimp. <a href="%s">Disconnect</a>', 'synchronized-post-publisher' ),
+									$mc_disconnect_url
+								);
                             } else  {
                                 printf(
-                                    __( 'Enter your <a href="%s" target="_blank">MailChimp API key</a> here to enable the sending of campaigns once all posts within the group are successfully published.', 'synchronized-post-publisher' ),
-                                    'http://admin.mailchimp.com/account/api-key-popup">'
+                                    __( 'Enter your <a href="%s" target="_blank">MailChimp API key</a> here to enable automated sending of campaigns once all posts within the group are successfully published.', 'synchronized-post-publisher' ),
+                                    'http://admin.mailchimp.com/account/api-key-popup'
                                 );
                             }
                             ?>

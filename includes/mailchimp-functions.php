@@ -15,8 +15,8 @@
 if ( ! defined( 'ABSPATH' ) )
 	exit;
 
-require_once WP_SPP_PLUGIN_DIR . '/includes/lib/MailChimp.php';
-use WP_SPP\SPP_MailChimp\SPP_MailChimp;
+require_once WP_SPP_PLUGIN_DIR . 'lib/MailChimp.php';
+use WP_SPP\WP_SPP_MailChimp\WP_SPP_MailChimp;
 
 /**
  * Retrieve the MailChimp API key.
@@ -65,3 +65,53 @@ function wp_spp_mc_is_connected()	{
 
 	return $connected;
 } // wp_spp_mc_is_connected
+
+/**
+ * Retrieve campaigns from MailChimp.
+ *
+ * @since	1.2
+ * @param	array	$args	Array of args
+ * @return	array	Array of campaigns data
+ */
+function wp_spp_get_mc_campaigns( $args = array() )	{
+	$defaults = array(
+		'count'  => 0,
+		'status' => 'save'
+	);
+
+	$args = wp_parse_args( $args, $defaults );
+
+	$mailchimp = wp_spp_mc_connect();
+	$campaigns = $mailchimp->get( 'campaigns', $args );
+
+	if ( ! empty( $campaigns ) && ! empty( $campaigns['campaigns'] ) )	{
+		return $campaigns['campaigns'];
+	}
+
+	return false;
+} // wp_spp_get_mc_campaigns
+
+/**
+ * Disconnect from MailChimp.
+ *
+ * @since	1.2
+ * @return	void
+ */
+function wp_spp_mc_disconnect_action()	{
+	if ( ! isset( $_GET['wp-spp-action'] ) || 'disconnect-mailchimp' != $_GET['wp-spp-action'] )	{
+		return;
+	}
+
+	if ( ! isset( $_GET['wp-spp-nonce'] ) || ! wp_verify_nonce( $_GET['wp-spp-nonce'], 'disconnect-mc' ) )	{
+		return;
+	}
+
+	delete_option( 'wp_spp_mc_api_key' );
+
+	wp_safe_redirect( add_query_arg( array(
+		'post_type' => 'wp_spp_group',
+		'page'      => 'wp_spp'
+	), admin_url( 'edit.php' ) ) );
+	exit;
+} // wp_spp_mc_disconnect_action
+add_action( 'admin_init', 'wp_spp_mc_disconnect_action' );

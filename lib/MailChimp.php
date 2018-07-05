@@ -1,6 +1,6 @@
 <?php
 
-namespace WP_SPP\SPP_MailChimp;
+namespace WP_SPP\WP_SPP_MailChimp;
 
 /**
  * Super-simple, minimum abstraction MailChimp API v3 wrapper
@@ -10,7 +10,7 @@ namespace WP_SPP\SPP_MailChimp;
  * @author  Drew McLellan <drew.mclellan@gmail.com>
  * @version 2.5
  */
-class SPP_MailChimp
+class WP_SPP_MailChimp
 {
     private $api_key;
     private $api_endpoint = 'https://<dc>.api.mailchimp.com/3.0';
