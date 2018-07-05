@@ -38,6 +38,7 @@ add_action( 'admin_menu', 'wp_spp_admin_settings_menu' );
 function wp_spp_register_settings()	{
 	register_setting( 'wp_spp_settings_group', 'wp_spp_post_types_enabled', 'wp_spp_sanitize_post_types_enabled_setting' );
     register_setting( 'wp_spp_settings_group', 'wp_spp_delete_groups_on_publish' );
+    register_setting( 'wp_spp_settings_group', 'wp_spp_mc_api_key' );
 } // wp_spp_register_settings
 add_action( 'admin_init', 'wp_spp_register_settings' );
 
@@ -86,6 +87,23 @@ function wp_spp_settings_page()	{
                         <input type="checkbox" name="wp_spp_delete_groups_on_publish" value="1"<?php checked( 1, get_option( 'wp_spp_delete_groups_on_publish', 0 ) ); ?> />
                         <p class="description">
                             <?php _e( 'If enabled, post groups will be deleted once all posts within the group are successfully published.', 'synchronized-post-publisher' ); ?>
+                        </p>
+                    </td>
+                </tr>
+                <tr valign="top">
+                    <th scope="row"><?php _e( 'MailChimp API Key', 'synchronized-post-publisher' ); ?></th>
+                    <td>
+                        <input type="checkbox" name="wp_spp_mc_api_key" value="1"<?php checked( 1, get_option( 'wp_spp_mc_api_key', 0 ) ); ?> />
+                        <p class="description">
+                            <?php if ( kbs_mc_is_connected() ) {
+                                _e( 'Successfully connected to MailChimp', 'synchronized-post-publisher' );
+                            } else  {
+                                printf(
+                                    __( 'Enter your <a href="%s" target="_blank">MailChimp API key</a> here to enable the sending of campaigns once all posts within the group are successfully published.', 'synchronized-post-publisher' ),
+                                    'http://admin.mailchimp.com/account/api-key-popup">'
+                                );
+                            }
+                            ?>
                         </p>
                     </td>
                 </tr>

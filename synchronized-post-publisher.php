@@ -148,6 +148,7 @@ final class Synchronized_Post_Publisher {
 
 		require_once WP_SPP_PLUGIN_DIR . 'includes/misc-functions.php';
 		require_once WP_SPP_PLUGIN_DIR . 'includes/post-functions.php';
+        require_once WP_SPP_PLUGIN_DIR . 'includes/mailchimp-functions.php';
         require_once WP_SPP_PLUGIN_DIR . 'includes/ajax-functions.php';
 
 		if ( is_admin() )	{
