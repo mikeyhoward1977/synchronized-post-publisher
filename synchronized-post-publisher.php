@@ -264,11 +264,19 @@ final class Synchronized_Post_Publisher {
 
 			if ( 'published_posts' == sanitize_text_field( $_GET['wp-spp-notice'] ) )	{
 
-				$total = isset( $_GET['spp_total'] ) ? (int) $_GET['spp_total'] : 0;
+				$total     = isset( $_GET['spp_total'] ) ? (int) $_GET['spp_total'] : 0;
+                $campaigns = isset( $_GET['mc_total'] )  ? (int) $_GET['mc_total']  : 0;
 
 				ob_start(); ?>
 				<div class="notice notice-success is-dismissible">
 					<p><?php printf( _n( '%s post published from group.', '%s posts published from group.', $total, 'synchronized-post-publisher' ), $total ); ?></p>
+
+                    <?php if ( $campaigns > 0 ) : ?>
+
+                    <p><?php printf( _n( '%s campaign sent from group.', '%s campaigns sent from group.', $campaigns, 'synchronized-post-publisher' ), $campaigns ); ?></p>
+
+                    <?php endif; ?>
+
 				</div>
 				<?php echo ob_get_clean();
 			}
@@ -499,6 +507,10 @@ final class Synchronized_Post_Publisher {
 			remove_action( 'transition_post_status', array( self::$instance, 'publish_group_posts' ), 10, 3 );
 	
 			$published_posts = wp_spp_publish_group_posts( $group_id );
+
+            if ( $published_posts > 0 ) {
+                $campaigns_sent = wp_spp_mc_send_scheduled_campaigns( $group_id );
+            }
 	
 			// Re-hook the action
 			add_action( 'transition_post_status', array( self::$instance, 'publish_group_posts' ), 10, 3 );
@@ -506,7 +518,8 @@ final class Synchronized_Post_Publisher {
 			$redirect = add_query_arg( array(
 				'post_type'     => 'wp_spp_group',
 				'wp-spp-notice' => 'published_posts',
-				'spp_total'     => $published_posts
+				'spp_total'     => $published_posts,
+                'mc_total'      => $campaigns_sent
 			), admin_url( 'edit.php' ) );
 
 			wp_safe_redirect( $redirect );
@@ -550,6 +563,7 @@ final class Synchronized_Post_Publisher {
 		remove_action( 'transition_post_status', array( self::$instance, 'publish_group_posts' ), 10, 3 );
 
 		wp_spp_publish_group_posts( $post_group );
+        wp_spp_mc_send_scheduled_campaigns( $group_id );
 
 		// Re-hook this action
 		add_action( 'transition_post_status', array( self::$instance, 'publish_group_posts' ), 10, 3 );

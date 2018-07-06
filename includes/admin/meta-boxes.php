@@ -103,76 +103,6 @@ function wp_spp_add_meta_boxes( $post ) {
 add_action( 'add_meta_boxes_wp_spp_group', 'wp_spp_add_meta_boxes' );
 
 /**
- * Renders the MailChimp campaigns metabox
- *
- * @since	1.2
- * @param	object	$post	WP_Post object
- */
-function wp_spp_group_mc_campaigns_metabox_callback( $post )	{
-	if ( wp_spp_mc_is_connected() ) : ?>
-
-		<?php $campaigns = wp_spp_get_mc_campaigns(); ?>
-
-		<p><?php _e( 'Select the MailChimp campaigns you want to send when the posts within this SPP group have been successfully published.', 'synchronized-post-publisher' ); ?></p>
-
-		<table class="wp-list-table widefat fixed striped posts">
-			<thead>
-				<tr>
-					<td style="width: 5%;"></td>
-					<th style="width: 25%;"><?php _e( 'Name', 'synchronized-post-publisher' ); ?></th>
-					<th><?php _e( 'Subject', 'synchronized-post-publisher' ); ?></th>
-					<th style="width: 15%;"><?php _e( 'List', 'synchronized-post-publisher' ); ?></th>
-					<th style="width: 15%; text-align: center;"><?php _e( 'Recipients', 'synchronized-post-publisher' ); ?></th>
-				</tr>
-			</thead>
-			<tbody>
-				<?php if ( empty( $campaigns ) ) : ?>
-					<tr>
-						<td colspan="5">
-							<?php printf(
-								__( 'There are no <a href="%s" target="_blank">campaigns</a> ready to send.', 'synchronized-post-publisher' ),
-								'https://admin.mailchimp.com/campaigns/'
-							); ?>
-						</td>
-					</tr>
-				<?php else : ?>
-					<?php foreach( $campaigns as $campaign ) : ?>
-						<tr class="iedit author-self level-0 post-1 type-post status-publish format-standard hentry">
-							<th scope="row" class="check-column" style="text-align: center;">
-								<input type="checkbox" value="<?php echo $campaign['id']; ?>">
-							</th>
-							<td>
-								<?php echo esc_attr( $campaign['settings']['title'] ); ?>
-							</td>
-							<td>
-								<?php echo esc_attr( $campaign['settings']['subject_line'] ); ?>
-							</td>
-							<td>
-								<?php echo esc_attr( $campaign['recipients']['list_name'] ); ?>
-							</td>
-							<td style="text-align: center;">
-								<?php echo esc_attr( $campaign['recipients']['recipient_count'] ); ?>
-							</td>
-						</tr>
-					<?php endforeach; ?>
-				<?php endif; ?>
-				
-			</tbody>
-		</table>
-
-	<?php else : ?>
-
-		<?php $settings_url = add_query_arg( array(
-			'post_type' => 'wp_spp_group',
-			'page'      => 'wp_spp'
-		), admin_url( 'edit.php' ) ); ?>
-
-		<p><?php printf( __( 'Enter your <a href="%s">API key</a> to choose a MailChimp campaign to send when the posts within this SPP group have been successfully published.', 'synchronized-post-publisher' ), $settings_url ); ?></p>
-
-	<?php endif;
-} // wp_spp_group_mc_campaigns_metabox_callback
-
-/**
  * Renders the group publish posts metabox
  *
  * @since   1.0
@@ -205,7 +135,7 @@ function wp_spp_group_posts_metabox_callback( $post )   {
     $group_posts = wp_spp_get_posts_in_sync_group( $post->ID, array( 'fields' => 'all' ) );
 
     ?>
-    <table class="wp-list-table widefat striped emails">
+    <table class="wp-list-table widefat striped">
         <thead>
             <tr>
                 <th><?php _e( 'Title', 'synchronized-post-publisher' ); ?></th>
@@ -268,3 +198,39 @@ function wp_spp_group_posts_metabox_callback( $post )   {
     </table>
     <?php
 } // wp_spp_group_posts_metabox_callback
+
+/**
+ * Renders the MailChimp campaigns metabox
+ *
+ * @since	1.2
+ * @param	object	$post	WP_Post object
+ */
+function wp_spp_group_mc_campaigns_metabox_callback( $post )	{
+	if ( wp_spp_mc_is_connected() ) : ?>
+
+		<?php
+        $scheduled = wp_spp_get_mc_scheduled_campaigns( $post->ID );
+        $campaigns = wp_spp_get_mc_campaigns();
+
+        ?>
+        <div id="wp-spp-mc-lists">
+            <p><?php _e( 'The following campaigns are scheduled to be sent once all posts within this SPP group have been successfully published.', 'synchronized-post-publisher' ); ?></p>
+
+            <?php echo wp_spp_mc_display_scheduled_campaigns( $post->ID ); ?>
+
+            <h4><?php _e( 'Available Campaigns', 'synchronized-post-publisher' ); ?></h4>
+            <p><?php _e( 'Choose which campaigns you want to send when the posts within this group are successfully published.', 'synchronized-post-publisher' ); ?></p>
+            <?php echo wp_spp_mc_display_available_campaigns( $scheduled ); ?>
+        </div>
+
+	<?php else : ?>
+
+		<?php $settings_url = add_query_arg( array(
+			'post_type' => 'wp_spp_group',
+			'page'      => 'wp_spp'
+		), admin_url( 'edit.php' ) ); ?>
+
+		<p><?php printf( __( 'Enter your <a href="%s">API key</a> to choose a MailChimp campaign to send when the posts within this SPP group have been successfully published.', 'synchronized-post-publisher' ), $settings_url ); ?></p>
+
+	<?php endif;
+} // wp_spp_group_mc_campaigns_metabox_callback
