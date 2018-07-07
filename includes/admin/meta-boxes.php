@@ -211,10 +211,21 @@ function wp_spp_group_mc_campaigns_metabox_callback( $post )	{
 		<?php
         $scheduled = wp_spp_get_mc_scheduled_campaigns( $post->ID );
         $campaigns = wp_spp_get_mc_campaigns();
+		$refresh   = remove_query_arg( 'force-campaign-refresh' );
+		$refresh   = add_query_arg ('force-campaign-refresh', 1 );
 
         ?>
         <div id="wp-spp-mc-lists">
             <p><?php _e( 'The following campaigns are scheduled to be sent once all posts within this SPP group have been successfully published.', 'synchronized-post-publisher' ); ?></p>
+
+			<?php if ( ! isset( $_GET['force-campaign-refresh'] ) ) : ?>
+				<p class="description" style="text-align: right;">
+					<?php printf(
+						__( 'Campaign data is retrieved from cache. Something not up to date? <a href="%s">Force a refresh</a>.', 'synchronized-post-publisher' ),
+						$refresh
+					); ?>
+				</p>
+			<?php endif; ?>
 
             <?php echo wp_spp_mc_display_scheduled_campaigns( $post->ID ); ?>
 

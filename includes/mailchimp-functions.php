@@ -108,17 +108,37 @@ function wp_spp_get_mc_scheduled_campaigns( $group_id )	{
 } // wp_spp_get_mc_scheduled_campaigns
 
 /**
+ * Retrieve the count of campaigns scheduled to be sent when the group is publishd.
+ *
+ * @since	1.2
+ * @param	int		$group_id	SPP group ID
+ * @return	int		Count of campaigns
+ */
+function wp_spp_count_mc_scheduled_campaigns_in_group( $group_id )	{
+	return (int) count( wp_spp_get_mc_scheduled_campaigns( $group_id ) );
+} // wp_spp_count_mc_scheduled_campaigns_in_group
+
+/**
  * Retrieve a single campaign from MailChimp.
  *
  * @since	1.2
- * @param	string	$campaign_id	The MailChimp campaign ID
+ * @param	string		$campaign_id	The MailChimp campaign ID
+ * @param	bool|object	$mailchimp		WP_SPP_MailChimp class object or false
  * @return	array	Array of campaign data
  */
-function wp_spp_get_mc_campaign( $campaign_id )	{
-	$mailchimp = wp_spp_mc_connect();
+function wp_spp_get_mc_campaign( $campaign_id, $mailchimp = false )	{
+	if ( ! $mailchimp )	{
+		$mailchimp = wp_spp_mc_connect();
+	}
 
     if ( $mailchimp )   {
-        $campaign = $mailchimp->get( "/campaigns/$campaign_id" );
+		$cache_key = 'wp_spp_get_campaign_' . $campaign_id;
+		$campaign  = get_transient( $cache_key );
+
+		if ( false === $campaign || isset( $_GET['force-campaign-refresh'] ) )	{
+			$campaign = $mailchimp->get( "/campaigns/$campaign_id" );
+			set_transient( $cache_key, $campaign, DAY_IN_SECONDS / 2 );
+		}
 
         if ( ! empty( $campaign ) )	{
             return $campaign;
@@ -143,15 +163,30 @@ function wp_spp_get_mc_campaigns( $args = array() )	{
 
 	$args = wp_parse_args( $args, $defaults );
 
-	$mailchimp = wp_spp_mc_connect();
+	$cache_key = 'wp_spp_get_campaigns_' . $args['status'];
+	$campaigns = get_transient( $cache_key );
 
-    if ( $mailchimp )   {
-	   $campaigns = $mailchimp->get( '/campaigns', $args );
+	if ( false === $campaigns || isset( $_GET['force-campaign-refresh'] ) )	{
+		$mailchimp = wp_spp_mc_connect();
 
-	   if ( ! empty( $campaigns ) && ! empty( $campaigns['campaigns'] ) )	{
-		  return $campaigns['campaigns'];
-	   }
-    }
+		if ( $mailchimp )   {
+			$campaigns = $mailchimp->get( '/campaigns', $args );
+
+			if ( ! empty( $campaigns ) && ! empty( $campaigns['campaigns'] ) )	{
+				set_transient( $cache_key, $campaigns, DAY_IN_SECONDS / 2 );
+
+				// Update individual campaign caches
+				foreach( $campaigns['campaigns'] as $campaign )	{
+					wp_spp_get_mc_campaign( $campaign['id'], $mailchimp );
+				}
+			}
+		}
+	}
+
+   if ( ! empty( $campaigns ) && ! empty( $campaigns['campaigns'] ) )	{
+	   return $campaigns['campaigns'];
+   }
+
 
 	return false;
 } // wp_spp_get_mc_campaigns
@@ -167,7 +202,7 @@ function wp_spp_mc_send_scheduled_campaigns( $group_id )    {
     $scheduled = wp_spp_get_mc_scheduled_campaigns( $group_id );
     $count     = 0;
 
-    if ( $scheduled )   {
+    if ( ! empty( $scheduled ) )   {
         $mailchimp = wp_spp_mc_connect();
 
         if ( $mailchimp )   {
@@ -242,7 +277,7 @@ function wp_spp_mc_display_scheduled_campaigns( $group_id ) {
         </thead>
         <tbody>
 
-        <?php if ( ! $scheduled ) : ?>
+        <?php if ( empty( $scheduled ) ) : ?>
 
             <tr id="wp-spp-campaign-scheduled">
                 <td colspan="5"><?php _e( 'No campaigns will be sent when this group is published.', 'synchronized-post-publisher' ); ?></td>
