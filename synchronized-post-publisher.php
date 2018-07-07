@@ -449,7 +449,7 @@ final class Synchronized_Post_Publisher {
             'use_featured_image'    => __( 'Use as Group Image', 'synchronized-post-publisher' ),
             'filter_items_list'     => __( 'Filter group list', 'synchronized-post-publisher' ),
             'items_list_navigation' => __( 'Groups list navigation', 'synchronized-post-publisher' ),
-            'items_list'            => __( 'Groupe list', 'synchronized-post-publisher' )
+            'items_list'            => __( 'Groups list', 'synchronized-post-publisher' )
         ) );
 
         $args = array(
