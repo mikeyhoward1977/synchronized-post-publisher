@@ -1,22 +1,22 @@
 === Synchronized Post Publisher ===
 Contributors: mikeyhoward1977
-Tags: documentation, posts, publish, publish posts, grouped posts
+Tags: documentation, posts, publish, publish posts, mailchimp
 Requires at least: 4.1
-Tested up to: 4.9.6
+Tested up to: 4.9.7
 Requires PHP: 5.4
-Stable tag: 1.1.1
+Stable tag: 1.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Automate the publishing of multiple documents, posts and pages at the same time.
+Automate the publishing of multiple posts, pages, products and MailChimp campaigns at the same time.
 
 == Description ==
 
-Synchronized Post Publisher (SPP) for WordPress, allows you to group pages and posts (of any type) together and publish them all simultaneously.
+Synchronized Post Publisher (SPP) for WordPress, provides you with the ability to add pages, posts (of any type), and MailChimp email campaigns together and publish them all simultaneously.
 
-Let's say you're about to release a new product, or an update to an existing one. This product may need product page, a release post and maybe even some documentation.
+Let's say you're about to release a new product, or an update to an existing one. This product may need product page, a release post, some documentation and maybe even an email campaign within MailChimp. It may be a WooCommerce product, an Easy Digital Downloads download, or anything else.
 
-SPP enables you to create all of the above in advance and publish them all at the same time with minimal effort. Create all your documentation and your release post and add them to an SPP group. When you're ready to publish your product, all these posts will be published at the same time.
+SPP enables you to create all of the above in advance and publish them all at the same time with minimal effort. Create all your documentation and your release post and add them to an SPP group. Then, optionally add your MailChimp email campaign to the SPP group and when you're ready to publish your product, all these posts will be published at the same time and your MailChimp campaigns will be sent.
 
 Sure, there are other ways to achieve this. For example, you could visit each post individually and publish it, or you could visit the edit post page for each post type and publish via Quick Edit, but it's just not as quick and seamless as the Synchronized Post Publisher for WordPress.
 
@@ -64,19 +64,43 @@ Head to the **SPP Groups** menu option and create a group in the same way you wo
 
 When editing a post, if it is enabled for SPP grouping, the **Publish Group** option is added within the **Publish** meta box. The current group (or **None**) is displayed. Click edit to reveal a dropdown list of groups to which the post can be added. Select the group and click the **OK** button. The post is immediately added to the group
 
+= How do I connect to MailChimp? =
+
+Open the **Settings** page from within the **SPP Groups** menu. Enter your MailChimp API key in the **MailChimp API Key** field and click **Save Settings**. SPP will tell you if the connection is successful.
+
+= How do I schedule my MailChimp campaign to be sent when the SPP group's posts are published? =
+
+After entering your MailChimp API key, click the **SPP Groups** menu item to reveal a list of your SPP groups. Click the list you want to add your campaign(s) to. All of your available MailChimp campaigns will be displayed within a table at the foot of the page. Locate the campaigns you want to send when this SPP groups posts are published and click the **Add** button. The campaign will move to the scheduled campaigns table and be removed from the available campaigns table.
+
+= How do I remove a scheduled MailChimp campaign from an SPP group =
+
+Follow the same steps for adding a campaign but instead of clicking **Add** on a campaign, click **remove**.
+
 = When do grouped posts get published? =
 
 When you click the **Publish** button for any post within a group, all other posts within the group will also be published. A handy confirmation is displayed to ensure you don't do this by mistake
+
+= When do MailChimp campaigns get sent? =
+
+Once the posts within the SPP group have been published, any MailChimp campaigns you have scheduled to be sent, will be sent. Note that the time it takes to actually send the campaigns via email depends on the MailChimp queue times.
 
 = Which post statuses are supported? =
 
 Posts in the 'auto-draft', 'draft' or 'pending' status can be added to an SPP group
 
+= Why can't I see all of my MailChimp campaigns? =
+
+Only campaigns that are ready to be sent (draft) are listed. Make sure your campaign is in **Draft*8 status.
+
+= I still can't see my campaign =
+
+SPP caches results from MailChimp for performance. Due to this recent changes to campaigns may not immediately be visible. When editing the SPP group, click on the **Force a refresh** link to force SPP to update its cache immediately.
+
 = What happens if I delete an SPP group? =
 
 Not much. All posts within the group will have their association removed when the group is removed from trash (permanently deleted)
 
-= How do I see which posts are within a group? =
+= How do I see which posts and MailChimp email campaigns are within a group? =
 
 Head to the **SPP Groups** menu option, click the name of the group and all posts within the group will be displayed.
 
@@ -105,6 +129,14 @@ Support is provided via the [WordPress.org support forums](https://wordpress.org
 8. Confirmation of how many posts were published
 
 == Changelog ==
+
+= 1.2 =
+
+**DATE**
+
+* **New**: You can now schedule MailChimp email campaigns to be sent when an SPP Groups posts are published. Enter your MailChimp API key within *SPP Groups* -> *Settings* to get started
+
+* **Tweak**: Incremented *Tested up to* WordPress version
 
 = 1.1.1 =
 
