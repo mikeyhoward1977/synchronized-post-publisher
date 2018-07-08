@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Synchronized Post Publisher 1.2\n"
 "Report-Msgid-Bugs-To: https://mikesplugins.co.uk/\n"
-"POT-Creation-Date: 2018-07-07 00:07:51+00:00\n"
+"POT-Creation-Date: 2018-07-08 13:53:48+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -77,7 +77,7 @@ msgstr ""
 msgid "Author"
 msgstr ""
 
-#: includes/admin/meta-boxes.php:144 includes/admin/post-spp-groups.php:57
+#: includes/admin/meta-boxes.php:144 includes/admin/post-spp-groups.php:58
 msgid "Date"
 msgstr ""
 
@@ -90,7 +90,7 @@ msgid "No posts within this group."
 msgstr ""
 
 #: includes/admin/meta-boxes.php:168 includes/ajax-functions.php:64
-#: includes/mailchimp-functions.php:300
+#: includes/mailchimp-functions.php:334
 msgid "Remove"
 msgstr ""
 
@@ -130,11 +130,11 @@ msgstr ""
 msgid "Optionally enter a description for this group."
 msgstr ""
 
-#: includes/admin/post-spp-groups.php:119
+#: includes/admin/post-spp-groups.php:128
 msgid "All SPP groups"
 msgstr ""
 
-#: includes/admin/post-spp-groups.php:163
+#: includes/admin/post-spp-groups.php:172
 msgid "%s SPP Group"
 msgstr ""
 
@@ -146,74 +146,82 @@ msgstr ""
 msgid "Synchronized Post Publisher"
 msgstr ""
 
-#: includes/admin/settings.php:84
+#: includes/admin/settings.php:85
 msgid "Enabled Post Types"
 msgstr ""
 
-#: includes/admin/settings.php:87
+#: includes/admin/settings.php:88
 msgid ""
 "Select the post types for which Synchronized Post Publisher should be "
 "enabled."
 msgstr ""
 
-#: includes/admin/settings.php:91
+#: includes/admin/settings.php:92
 msgid "Delete Groups on Publish"
 msgstr ""
 
-#: includes/admin/settings.php:95
+#: includes/admin/settings.php:96
 msgid ""
 "If enabled, post groups will be deleted once all posts within the group are "
 "successfully published."
 msgstr ""
 
-#: includes/admin/settings.php:100
+#: includes/admin/settings.php:101
 msgid "MailChimp API Key"
 msgstr ""
 
-#: includes/admin/settings.php:106
+#: includes/admin/settings.php:107
 msgid "Successfully connected to MailChimp. <a href=\"%s\">Disconnect</a>"
 msgstr ""
 
-#: includes/admin/settings.php:111
+#: includes/admin/settings.php:112
 msgid ""
 "Enter your <a href=\"%s\" target=\"_blank\">MailChimp API key</a> here to "
 "enable automated sending of campaigns once all posts within the group are "
 "successfully published."
 msgstr ""
 
-#: includes/admin/settings.php:142
+#: includes/admin/settings.php:121
+msgid "MailChimp Timeout"
+msgstr ""
+
+#: includes/admin/settings.php:125
+msgid "If you find that you're not seeing your campaigns increase this value."
+msgstr ""
+
+#: includes/admin/settings.php:152
 msgid "Settings updated."
 msgstr ""
 
-#: includes/ajax-functions.php:114 includes/mailchimp-functions.php:365
+#: includes/ajax-functions.php:114 includes/mailchimp-functions.php:399
 msgid "Add"
 msgstr ""
 
-#: includes/ajax-functions.php:135 includes/mailchimp-functions.php:283
+#: includes/ajax-functions.php:135 includes/mailchimp-functions.php:317
 msgid "No campaigns will be sent when this group is published."
 msgstr ""
 
-#: includes/mailchimp-functions.php:271 includes/mailchimp-functions.php:339
+#: includes/mailchimp-functions.php:305 includes/mailchimp-functions.php:373
 msgid "Action"
 msgstr ""
 
-#: includes/mailchimp-functions.php:272 includes/mailchimp-functions.php:340
+#: includes/mailchimp-functions.php:306 includes/mailchimp-functions.php:374
 msgid "Name"
 msgstr ""
 
-#: includes/mailchimp-functions.php:273 includes/mailchimp-functions.php:341
+#: includes/mailchimp-functions.php:307 includes/mailchimp-functions.php:375
 msgid "Subject"
 msgstr ""
 
-#: includes/mailchimp-functions.php:274 includes/mailchimp-functions.php:342
+#: includes/mailchimp-functions.php:308 includes/mailchimp-functions.php:376
 msgid "List"
 msgstr ""
 
-#: includes/mailchimp-functions.php:275 includes/mailchimp-functions.php:343
+#: includes/mailchimp-functions.php:309 includes/mailchimp-functions.php:377
 msgid "Recipients"
 msgstr ""
 
-#: includes/mailchimp-functions.php:351
+#: includes/mailchimp-functions.php:385
 msgid "There are no <a href=\"%s\" target=\"_blank\">campaigns</a> ready to send."
 msgstr ""
 
@@ -221,19 +229,19 @@ msgstr ""
 msgid "Cheatin&#8217; huh?"
 msgstr ""
 
-#: synchronized-post-publisher.php:244
+#: synchronized-post-publisher.php:247
 msgid "%s post"
 msgid_plural "%s posts"
 msgstr[0] ""
 msgstr[1] ""
 
-#: synchronized-post-publisher.php:251
+#: synchronized-post-publisher.php:254
 msgid "and %s campaign"
 msgid_plural "and %s campaigns"
 msgstr[0] ""
 msgstr[1] ""
 
-#: synchronized-post-publisher.php:261
+#: synchronized-post-publisher.php:264
 msgid ""
 "This post is part of a Synchronized Post Publisher group. Continuing will "
 "also publish all other posts within this group as well as any MailChimp "
@@ -241,33 +249,33 @@ msgid ""
 "to return."
 msgstr ""
 
-#: synchronized-post-publisher.php:263
+#: synchronized-post-publisher.php:266
 msgid "Confirm you want to publish a total of %s from this group?"
 msgstr ""
 
-#: synchronized-post-publisher.php:290
+#: synchronized-post-publisher.php:316
 msgid "%s post published from group."
 msgid_plural "%s posts published from group."
 msgstr[0] ""
 msgstr[1] ""
 
-#: synchronized-post-publisher.php:294
+#: synchronized-post-publisher.php:320
 msgid "%s campaign sent from group."
 msgid_plural "%s campaigns sent from group."
 msgstr[0] ""
 msgstr[1] ""
 
-#: synchronized-post-publisher.php:305
+#: synchronized-post-publisher.php:331
 msgid "Post removed from group."
 msgstr ""
 
-#: synchronized-post-publisher.php:384
+#: synchronized-post-publisher.php:410
 msgid ""
 "<strong>Nice!</strong> You've published over 15 posts using "
 "<strong>Synchronized Post Publisher</strong> which is absolutely awesome!"
 msgstr ""
 
-#: synchronized-post-publisher.php:388
+#: synchronized-post-publisher.php:414
 msgid ""
 "Would you <strong>please</strong> do us a favor and leave a 5 star rating "
 "on WordPress.org? It only takes a minute and it <strong>really "
@@ -276,71 +284,71 @@ msgid ""
 "target=\"_blank\">Sure thing, you deserve it!</a>"
 msgstr ""
 
-#: synchronized-post-publisher.php:436
+#: synchronized-post-publisher.php:462
 msgid "Add New Group"
 msgstr ""
 
-#: synchronized-post-publisher.php:437
+#: synchronized-post-publisher.php:463
 msgid "Edit Group"
 msgstr ""
 
-#: synchronized-post-publisher.php:438
+#: synchronized-post-publisher.php:464
 msgid "New Group"
 msgstr ""
 
-#: synchronized-post-publisher.php:439
+#: synchronized-post-publisher.php:465
 msgid "Groups"
 msgstr ""
 
-#: synchronized-post-publisher.php:440
+#: synchronized-post-publisher.php:466
 msgid "View Group"
 msgstr ""
 
-#: synchronized-post-publisher.php:441
+#: synchronized-post-publisher.php:467
 msgid "Search Group"
 msgstr ""
 
-#: synchronized-post-publisher.php:442
+#: synchronized-post-publisher.php:468
 msgid "No groups found"
 msgstr ""
 
-#: synchronized-post-publisher.php:443
+#: synchronized-post-publisher.php:469
 msgid "No groups found in Trash"
 msgstr ""
 
-#: synchronized-post-publisher.php:446
+#: synchronized-post-publisher.php:472
 msgid "Group Image"
 msgstr ""
 
-#: synchronized-post-publisher.php:447
+#: synchronized-post-publisher.php:473
 msgid "Set Group Image"
 msgstr ""
 
-#: synchronized-post-publisher.php:448
+#: synchronized-post-publisher.php:474
 msgid "Remove Group Image"
 msgstr ""
 
-#: synchronized-post-publisher.php:449
+#: synchronized-post-publisher.php:475
 msgid "Use as Group Image"
 msgstr ""
 
-#: synchronized-post-publisher.php:450
+#: synchronized-post-publisher.php:476
 msgid "Filter group list"
 msgstr ""
 
-#: synchronized-post-publisher.php:451
+#: synchronized-post-publisher.php:477
 msgid "Groups list navigation"
 msgstr ""
 
-#: synchronized-post-publisher.php:452
-msgid "Groupe list"
+#: synchronized-post-publisher.php:478
+msgid "Groups list"
 msgstr ""
 
-#: synchronized-post-publisher.php:519 synchronized-post-publisher.php:602
+#: synchronized-post-publisher.php:545 synchronized-post-publisher.php:628
 msgid "You do not have permissions to perform this action."
 msgstr ""
 
-#: synchronized-post-publisher.php:520 synchronized-post-publisher.php:603
+#: synchronized-post-publisher.php:546 synchronized-post-publisher.php:629
 msgid "Security Error"
 msgstr ""
 
@@ -379,20 +387,25 @@ msgstr ""
 
 #: includes/admin/post-spp-groups.php:56
 msgctxt "column name"
+msgid "Campaigns"
+msgstr ""
+
+#: includes/admin/post-spp-groups.php:57
+msgctxt "column name"
 msgid "Created by"
 msgstr ""
 
-#: synchronized-post-publisher.php:434
+#: synchronized-post-publisher.php:460
 msgctxt "wp_spp_group post type name"
 msgid "Synchronized Post Publisher Groups"
 msgstr ""
 
-#: synchronized-post-publisher.php:435
+#: synchronized-post-publisher.php:461
 msgctxt "singular wp_spp_group post type name"
 msgid "Synchronized Post Publisher Group"
 msgstr ""
 
-#: synchronized-post-publisher.php:445
+#: synchronized-post-publisher.php:471
 msgctxt "wp_spp_group post type menu name"
 msgid "SPP Groups"
 msgstr ""
