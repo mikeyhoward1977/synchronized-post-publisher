@@ -53,10 +53,15 @@ function wp_spp_set_group_post_columns( $columns ) {
         'title'            => _x( 'Name', 'column name', 'synchronized-post-publisher' ),
 		'desc'             => _x( 'Description', 'column name', 'synchronized-post-publisher' ),
 		'posts'            => _x( 'Posts', 'column name', 'synchronized-post-publisher' ),
+		'campaigns'        => _x( 'Campaigns', 'column name', 'synchronized-post-publisher' ),
         'author'           => _x( 'Created by', 'column name', 'synchronized-post-publisher' ),
 		'date'             => __( 'Date', 'synchronized-post-publisher' )
     );
-	
+
+	if ( ! wp_spp_mc_is_connected() )	{
+		unset( $columns['count'] );
+	}
+
 	return apply_filters( 'wp_spp_group_post_columns', $columns );
 
 } // wp_spp_set_group_post_columns
@@ -79,6 +84,10 @@ function wp_spp_output_group_post_columns( $column_name, $post_id ) {
 
 		case 'posts':
 			echo wp_spp_count_sync_group_posts( $post_id );
+			break;
+
+		case 'campaigns':
+			echo wp_spp_count_mc_scheduled_campaigns_in_group( $post_id );
 			break;
 	}
 

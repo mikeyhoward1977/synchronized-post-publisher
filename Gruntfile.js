@@ -159,14 +159,6 @@ module.exports = function( grunt ) {
 			]
 		},
 
-		// cssmin
-		cssmin:	{
-			build:	{
-				files: {
-				}
-			}
-		},
-
 		// uglify to concat and minify
 		uglify: {
 			dist: {
@@ -279,13 +271,10 @@ module.exports = function( grunt ) {
 
 	// default task
 	grunt.registerTask( 'default', [
-		'cssmin',
+		'checktextdomain',
 		'jshint',
 		'uglify',
-		'makepot',
-		'checktextdomain',
-		//'potomo',
-		//'glotpress_download'
+		'makepot'
 	] );
 
 	// deploy task

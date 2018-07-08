@@ -36,8 +36,21 @@ if ( $items ) {
 	}
 }
 
+// Remove scheduled tasks
+if ( $timestamp = wp_next_scheduled( 'wp_spp_refresh_mailchimp_campaigns_task' ) )	{
+	wp_unschedule_event( $timestamp, 'wp_spp_refresh_mailchimp_campaigns_task' );
+}
+
 // Delete post meta keys
 $wpdb->delete( $wpdb->postmeta, array( 'meta_key' => '_wp_spp_sync_group' ) );
+
+// Delete all transients
+$wpdb->query( 
+	"
+	DELETE FROM $wpdb->options
+	WHERE option_name LIKE '_transient_%wp_spp_get_campaign%'
+	"
+);
 
 // Delete all Plugin Options
 $all_options = array(
@@ -46,6 +59,7 @@ $all_options = array(
 	'wp_spp_version_upgraded_from',
 	'wp_spp_post_types_enabled',
 	'wp_spp_delete_groups_on_publish',
+	'wp_spp_mc_api_key',
 	'wp_spp_install_version',
 	'wp_spp_published_posts'
 );

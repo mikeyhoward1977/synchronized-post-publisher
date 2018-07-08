@@ -2,8 +2,8 @@
 /**
  * Plugin Name: Synchronized Post Publisher
  * Plugin URI: 
- * Description: Automate the publishing of multiple posts and pages at the same time.
- * Version: 1.1.1
+ * Description: Automate the publishing of multiple posts, pages, products and MailChimp campaigns at the same time.
+ * Version: 1.2
  * Date: 04 April 2018
  * Author: Mike Howard
  * Author URI: https://mikesplugins.co.uk/
@@ -12,7 +12,7 @@
  * License: GPL2
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * GitHub Plugin URI: https://github.com/mikeyhoward1977/wp-synchronized-post-publisher
- * Tags: posts, publish, publish posts, grouped posts, groups
+ * Tags: documentation, posts, publish, publish posts, mailchimp
  *
  *
  * Synchronized_Post_Publisher is free software; you can redistribute it and/or modify
@@ -148,6 +148,7 @@ final class Synchronized_Post_Publisher {
 
 		require_once WP_SPP_PLUGIN_DIR . 'includes/misc-functions.php';
 		require_once WP_SPP_PLUGIN_DIR . 'includes/post-functions.php';
+        require_once WP_SPP_PLUGIN_DIR . 'includes/mailchimp-functions.php';
         require_once WP_SPP_PLUGIN_DIR . 'includes/ajax-functions.php';
 
 		if ( is_admin() )	{
@@ -186,6 +187,9 @@ final class Synchronized_Post_Publisher {
 
         // Scripts
 		add_action( 'admin_enqueue_scripts',  array( self::$instance, 'load_admin_scripts' ) );
+
+		// Styles
+		add_action( 'admin_head',             array( self::$instance, 'post_styles' ) );
 	} // hooks
 
 	/**
@@ -228,26 +232,67 @@ final class Synchronized_Post_Publisher {
             return;
         }
 
-        $js_dir  = WP_SPP_PLUGIN_URL . 'assets/js/';
+        $js_dir    = WP_SPP_PLUGIN_URL . 'assets/js/';
+        $suffix    = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
+        $can_group = ! empty( $post ) && is_object( $post ) && wp_spp_post_can_be_grouped( $post ) ? 1 : 0;
 
-        // Use minified libraries if SCRIPT_DEBUG is turned off
-        $suffix  = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
+		$total_posts     = 0;
+		$total_campaigns = 0;
+		$confirm_all     = '';
 
-        $can_group   = ! empty( $post ) && is_object( $post ) && wp_spp_post_can_be_grouped( $post ) ? 1 : 0;
-		$total_posts = 'wp_spp_group' == $typenow ? wp_spp_count_sync_group_posts( $post->ID ) : 0;
+		if ( 'wp_spp_group' == $typenow )	{
+			$total_posts     = wp_spp_count_sync_group_posts( $post->ID );
+			$total_campaigns = wp_spp_count_mc_scheduled_campaigns_in_group( $post->ID );
+			$confirm_all     = sprintf(
+				_n( '%s post', '%s posts', $total_posts, 'synchronized-post-publisher' ),
+				$total_posts
+			);
+
+			if ( $total_campaigns > 0 )	{
+				$confirm_all .= ' ';
+				$confirm_all .= sprintf(
+					_n( 'and %s campaign', 'and %s campaigns', $total_campaigns, 'synchronized-post-publisher' ),
+					$total_campaigns
+				);
+			}
+		}
 
         wp_enqueue_script( 'wp-spp-admin-scripts', $js_dir . 'admin-scripts' . $suffix . '.js', array( 'jquery' ), WP_SPP_VERSION, false );
 
         wp_localize_script( 'wp-spp-admin-scripts', 'wp_spp_vars', array(
             'can_group'             => $can_group,
-            'confirm_group_publish' => __( 'This post is part of a Synchronized Post Publisher group. Continuing will also publish all other posts within this group. Click OK to confirm and publish, or Cancel to return.', 'synchronized-post-publisher' ),
+            'confirm_group_publish' => __( 'This post is part of a Synchronized Post Publisher group. Continuing will also publish all other posts within this group as well as any MailChimp campaigns configured to be sent. Click OK to confirm and publish, or Cancel to return.', 'synchronized-post-publisher' ),
 			'confirm_publish_all'   => sprintf(
 				__( 'Confirm you want to publish a total of %s from this group?', 'synchronized-post-publisher' ),
-				sprintf( _n( '%s post', '%s posts', $total_posts, 'synchronized-post-publisher' ), $total_posts )
+				$confirm_all
 			),
-			'posts_in_group'        => $total_posts
+			'posts_in_group'        => $total_posts,
+			'campaigns_in_group'    => $total_campaigns
         ) );
     } // load_admin_scripts
+
+	/**
+	 * Add custom CSS to the SPP post list screen
+	 *
+	 * @since	1.2
+	 * @return	string
+	 */
+	public function post_styles()	{
+		global $current_screen;
+
+		if ( 'edit-wp_spp_group' != $current_screen->id )	{
+			return;
+		}
+
+		?>
+		<style type="text/css">
+			.column-campaigns {
+				text-align: center;
+				width: 74px;
+			}
+		</style>
+		<?php
+	} // post_styles
 
 /*****************************************
  -- ADMIN NOTICES
@@ -263,11 +308,19 @@ final class Synchronized_Post_Publisher {
 
 			if ( 'published_posts' == sanitize_text_field( $_GET['wp-spp-notice'] ) )	{
 
-				$total = isset( $_GET['spp_total'] ) ? (int) $_GET['spp_total'] : 0;
+				$total     = isset( $_GET['spp_total'] ) ? (int) $_GET['spp_total'] : 0;
+                $campaigns = isset( $_GET['mc_total'] )  ? (int) $_GET['mc_total']  : 0;
 
 				ob_start(); ?>
 				<div class="notice notice-success is-dismissible">
 					<p><?php printf( _n( '%s post published from group.', '%s posts published from group.', $total, 'synchronized-post-publisher' ), $total ); ?></p>
+
+                    <?php if ( $campaigns > 0 ) : ?>
+
+                    <p><?php printf( _n( '%s campaign sent from group.', '%s campaigns sent from group.', $campaigns, 'synchronized-post-publisher' ), $campaigns ); ?></p>
+
+                    <?php endif; ?>
+
 				</div>
 				<?php echo ob_get_clean();
 			}
@@ -422,7 +475,7 @@ final class Synchronized_Post_Publisher {
             'use_featured_image'    => __( 'Use as Group Image', 'synchronized-post-publisher' ),
             'filter_items_list'     => __( 'Filter group list', 'synchronized-post-publisher' ),
             'items_list_navigation' => __( 'Groups list navigation', 'synchronized-post-publisher' ),
-            'items_list'            => __( 'Groupe list', 'synchronized-post-publisher' )
+            'items_list'            => __( 'Groups list', 'synchronized-post-publisher' )
         ) );
 
         $args = array(
@@ -498,6 +551,10 @@ final class Synchronized_Post_Publisher {
 			remove_action( 'transition_post_status', array( self::$instance, 'publish_group_posts' ), 10, 3 );
 	
 			$published_posts = wp_spp_publish_group_posts( $group_id );
+
+            if ( $published_posts > 0 ) {
+                $campaigns_sent = wp_spp_mc_send_scheduled_campaigns( $group_id );
+            }
 	
 			// Re-hook the action
 			add_action( 'transition_post_status', array( self::$instance, 'publish_group_posts' ), 10, 3 );
@@ -505,7 +562,8 @@ final class Synchronized_Post_Publisher {
 			$redirect = add_query_arg( array(
 				'post_type'     => 'wp_spp_group',
 				'wp-spp-notice' => 'published_posts',
-				'spp_total'     => $published_posts
+				'spp_total'     => $published_posts,
+                'mc_total'      => $campaigns_sent
 			), admin_url( 'edit.php' ) );
 
 			wp_safe_redirect( $redirect );
@@ -549,6 +607,7 @@ final class Synchronized_Post_Publisher {
 		remove_action( 'transition_post_status', array( self::$instance, 'publish_group_posts' ), 10, 3 );
 
 		wp_spp_publish_group_posts( $post_group );
+        wp_spp_mc_send_scheduled_campaigns( $group_id );
 
 		// Re-hook this action
 		add_action( 'transition_post_status', array( self::$instance, 'publish_group_posts' ), 10, 3 );
