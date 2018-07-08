@@ -144,8 +144,13 @@ function wp_spp_get_mc_campaign( $campaign_id, $mailchimp = false )	{
     if ( $mailchimp )   {
 		$cache_key = 'wp_spp_get_campaign_' . $campaign_id;
 		$campaign  = get_transient( $cache_key );
+		if ( isset( $_GET['force-campaign-refresh'] ) || wp_doing_cron() )	{
+			$force = true;
+		}
 
-		if ( false === $campaign || isset( $_GET['force-campaign-refresh'] ) )	{
+		$force = apply_filters( 'wp_spp_force_campaign_refresh', $force );
+
+		if ( false === $campaign || $force )	{
 			$campaign = $mailchimp->get(
 				"/campaigns/$campaign_id",
 				array(),
@@ -179,8 +184,15 @@ function wp_spp_get_mc_campaigns( $args = array() )	{
 
 	$cache_key = 'wp_spp_get_campaigns_' . $args['status'];
 	$campaigns = get_transient( $cache_key );
+	$force     = false;
 
-	if ( false === $campaigns || isset( $_GET['force-campaign-refresh'] ) )	{
+	if ( isset( $_GET['force-campaign-refresh'] ) || wp_doing_cron() )	{
+		$force = true;
+	}
+
+	$force = apply_filters( 'wp_spp_force_campaigns_refresh', $force );
+
+	if ( false === $campaigns || $force )	{
 		$mailchimp = wp_spp_mc_connect();
 
 		if ( $mailchimp )   {
@@ -204,6 +216,7 @@ function wp_spp_get_mc_campaigns( $args = array() )	{
 
 	return false;
 } // wp_spp_get_mc_campaigns
+add_action( 'wp_spp_refresh_mailchimp_campaigns_task', 'wp_spp_get_mc_campaigns' );
 
 /**
  * Send the MailChimp campaigns for the group.
@@ -411,3 +424,29 @@ function wp_spp_mc_display_available_campaigns( $exclude ) {
 
     return ob_get_clean();
 } // wp_spp_mc_display_available_campaigns
+
+/**
+ * Add/Remove cron schedule based on settings.
+ *
+ * @since	1.2
+ * @param	mixed	$old_value	The old option value
+ * @param	mixed	$new_value	The new option value
+ * @param	string	$option		The option name
+ * @return	void
+ */
+function wp_spp_manage_mailchimp_schedule()	{
+	if ( ! wp_spp_mc_get_api() || ! wp_spp_mc_is_connected() )	{
+
+		if ( $timestamp = wp_next_scheduled( 'wp_spp_refresh_mailchimp_campaigns_task' ) )	{
+			wp_unschedule_event( $timestamp, 'wp_spp_refresh_mailchimp_campaigns_task' );
+		}
+
+	} elseif ( ! wp_next_scheduled( 'wp_spp_refresh_mailchimp_campaigns_task' ) && wp_spp_mc_is_connected() )	{
+		wp_schedule_event(
+			time(),
+			'twicedaily',
+			'wp_spp_refresh_mailchimp_campaigns_task'
+		);
+	}
+} // wp_spp_manage_mailchimp_schedule
+add_action( 'init', 'wp_spp_manage_mailchimp_schedule' );

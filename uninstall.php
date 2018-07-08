@@ -36,6 +36,11 @@ if ( $items ) {
 	}
 }
 
+// Remove scheduled tasks
+if ( $timestamp = wp_next_scheduled( 'wp_spp_refresh_mailchimp_campaigns_task' ) )	{
+	wp_unschedule_event( $timestamp, 'wp_spp_refresh_mailchimp_campaigns_task' );
+}
+
 // Delete post meta keys
 $wpdb->delete( $wpdb->postmeta, array( 'meta_key' => '_wp_spp_sync_group' ) );
 

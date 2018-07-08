@@ -153,4 +153,3 @@ function wp_spp_sanitize_post_types_enabled_setting( $input )	{
 
 	return $input;
 } // wp_spp_sanitize_post_types_enabled_setting
-
