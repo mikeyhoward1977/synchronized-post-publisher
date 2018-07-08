@@ -132,7 +132,7 @@ Support is provided via the [WordPress.org support forums](https://wordpress.org
 
 = 1.2 =
 
-**DATE**
+**Sunday, 8th July 2018**
 
 * **New**: You can now schedule MailChimp email campaigns to be sent when an SPP Groups posts are published. Enter your MailChimp API key within *SPP Groups* -> *Settings* to get started
 

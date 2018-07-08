@@ -187,6 +187,9 @@ final class Synchronized_Post_Publisher {
 
         // Scripts
 		add_action( 'admin_enqueue_scripts',  array( self::$instance, 'load_admin_scripts' ) );
+
+		// Styles
+		add_action( 'admin_head',             array( self::$instance, 'post_styles' ) );
 	} // hooks
 
 	/**
@@ -267,6 +270,29 @@ final class Synchronized_Post_Publisher {
 			'campaigns_in_group'    => $total_campaigns
         ) );
     } // load_admin_scripts
+
+	/**
+	 * Add custom CSS to the SPP post list screen
+	 *
+	 * @since	1.2
+	 * @return	string
+	 */
+	public function post_styles()	{
+		global $current_screen;
+
+		if ( 'edit-wp_spp_group' != $current_screen->id )	{
+			return;
+		}
+
+		?>
+		<style type="text/css">
+			.column-campaigns {
+				text-align: center;
+				width: 74px;
+			}
+		</style>
+		<?php
+	} // post_styles
 
 /*****************************************
  -- ADMIN NOTICES
