@@ -29,6 +29,16 @@ function wp_spp_mc_get_api()	{
 } // wp_spp_mc_get_api
 
 /**
+ * Retrieve the MailChimp Timeout.
+ *
+ * @since	1.2
+ * @return	int		The MailChimp timeout
+ */
+function wp_spp_mc_get_timeout()	{
+	return get_option( 'wp_spp_mc_timeout', 15 );
+} // wp_spp_mc_get_timeout
+
+/**
  * Instantiate the class.
  *
  * @since	1.2
@@ -136,7 +146,11 @@ function wp_spp_get_mc_campaign( $campaign_id, $mailchimp = false )	{
 		$campaign  = get_transient( $cache_key );
 
 		if ( false === $campaign || isset( $_GET['force-campaign-refresh'] ) )	{
-			$campaign = $mailchimp->get( "/campaigns/$campaign_id" );
+			$campaign = $mailchimp->get(
+				"/campaigns/$campaign_id",
+				array(),
+				wp_spp_mc_get_timeout()
+			);
 			set_transient( $cache_key, $campaign, DAY_IN_SECONDS / 2 );
 		}
 
@@ -170,7 +184,7 @@ function wp_spp_get_mc_campaigns( $args = array() )	{
 		$mailchimp = wp_spp_mc_connect();
 
 		if ( $mailchimp )   {
-			$campaigns = $mailchimp->get( '/campaigns', $args );
+			$campaigns = $mailchimp->get( '/campaigns', $args, wp_spp_mc_get_timeout() );
 
 			if ( ! empty( $campaigns ) && ! empty( $campaigns['campaigns'] ) )	{
 				set_transient( $cache_key, $campaigns, DAY_IN_SECONDS / 2 );
@@ -212,13 +226,19 @@ function wp_spp_mc_send_scheduled_campaigns( $group_id )    {
 
                 do_action( "wp_spp_before_send_campaign_$campaign_id", $group_id );
 
-                $sent = $mailchimp->post( "/campaigns/$campaign_id/actions/send" );
+                $sent = $mailchimp->post(
+					"/campaigns/$campaign_id/actions/send",
+					array(),
+					wp_spp_mc_get_timeout()
+				);
 
                 do_action( "wp_spp_after_send_campaign_$campaign_id", $group_id, $sent );
                 if ( true === $sent )   {
-                    wp_spp_remove_mc_campaign_from_group( $group_id, $campaign_id );
                     $count++;
-                }
+                } else	{
+					error_log( var_export( $sent, true ) );
+				}
+				wp_spp_remove_mc_campaign_from_group( $group_id, $campaign_id );
             }
 
             do_action( 'wp_spp_after_send_campaigns', $scheduled, $group_id, $count );

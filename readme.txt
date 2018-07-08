@@ -98,7 +98,7 @@ SPP caches results from MailChimp for performance. Due to this recent changes to
 
 = What happens if I delete an SPP group? =
 
-Not much. All posts within the group will have their association removed when the group is removed from trash (permanently deleted)
+Not much. All posts within the group will have their association removed when the group is removed from trash (permanently deleted). Any MailChimp campaigns associated with the group will remain unsent.
 
 = How do I see which posts and MailChimp email campaigns are within a group? =
 
@@ -112,7 +112,7 @@ Support is provided via the [WordPress.org support forums](https://wordpress.org
 
 == Screenshots ==
 
-1. SPP settings screen. Select which post types can be grouped
+1. SPP settings screen. Select which post types can be grouped and optionally enter your MailChimp API key
 
 2. Creating a new SPP group
 
@@ -124,9 +124,9 @@ Support is provided via the [WordPress.org support forums](https://wordpress.org
 
 6. List of SPP groups
 
-7. An SPP group page where posts can be reviewed, removed and all posts within the group can be published with one click!
+7. An SPP group page where everything can be managed and published with one click!
 
-8. Confirmation of how many posts were published
+8. Confirmation of how many posts were published and email campaigns sent
 
 == Changelog ==
 

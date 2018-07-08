@@ -39,6 +39,7 @@ function wp_spp_register_settings()	{
 	register_setting( 'wp_spp_settings_group', 'wp_spp_post_types_enabled', 'wp_spp_sanitize_post_types_enabled_setting' );
     register_setting( 'wp_spp_settings_group', 'wp_spp_delete_groups_on_publish' );
     register_setting( 'wp_spp_settings_group', 'wp_spp_mc_api_key' );
+	register_setting( 'wp_spp_settings_group', 'wp_spp_mc_timeout' );
 } // wp_spp_register_settings
 add_action( 'admin_init', 'wp_spp_register_settings' );
 
@@ -113,6 +114,15 @@ function wp_spp_settings_page()	{
                                 );
                             }
                             ?>
+                        </p>
+                    </td>
+                </tr>
+				<tr valign="top">
+                    <th scope="row"><?php _e( 'MailChimp Timeout', 'synchronized-post-publisher' ); ?></th>
+                    <td>
+                        <input type="number" name="wp_spp_mc_timeout" class="small-text" value="<?php echo wp_spp_mc_get_timeout(); ?>" min="5" max="995" step="5" />
+                        <p class="description">
+                            <?php _e( "If you find that you're not seeing your campaigns increase this value.", 'synchronized-post-publisher' ); ?>
                         </p>
                     </td>
                 </tr>
