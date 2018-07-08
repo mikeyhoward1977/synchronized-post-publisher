@@ -144,7 +144,9 @@ function wp_spp_get_mc_campaign( $campaign_id, $mailchimp = false )	{
     if ( $mailchimp )   {
 		$cache_key = 'wp_spp_get_campaign_' . $campaign_id;
 		$campaign  = get_transient( $cache_key );
-		if ( isset( $_GET['force-campaign-refresh'] ) || wp_doing_cron() )	{
+		$force     = false;
+
+		if ( isset( $_GET['force-campaign-refresh'] ) )	{
 			$force = true;
 		}
 
@@ -186,7 +188,7 @@ function wp_spp_get_mc_campaigns( $args = array() )	{
 	$campaigns = get_transient( $cache_key );
 	$force     = false;
 
-	if ( isset( $_GET['force-campaign-refresh'] ) || wp_doing_cron() )	{
+	if ( isset( $_GET['force-campaign-refresh'] ) )	{
 		$force = true;
 	}
 
@@ -216,7 +218,6 @@ function wp_spp_get_mc_campaigns( $args = array() )	{
 
 	return false;
 } // wp_spp_get_mc_campaigns
-add_action( 'wp_spp_refresh_mailchimp_campaigns_task', 'wp_spp_get_mc_campaigns' );
 
 /**
  * Send the MailChimp campaigns for the group.
@@ -447,6 +448,29 @@ function wp_spp_manage_mailchimp_schedule()	{
 			'twicedaily',
 			'wp_spp_refresh_mailchimp_campaigns_task'
 		);
+
+		wp_schedule_single_event( time(), 'wp_wpp_refresh_campaigns_task' );
 	}
 } // wp_spp_manage_mailchimp_schedule
 add_action( 'init', 'wp_spp_manage_mailchimp_schedule' );
+
+/**
+ * Refresh the cache of MailChimp campaigns.
+ *
+ * @since	1.2
+ * @return	void
+ */
+function wp_wpp_refresh_campaigns_task()	{
+	global $wpdb;
+
+	$wpdb->query( 
+		"
+		DELETE FROM $wpdb->options
+		WHERE option_name LIKE '_transient_%wp_spp_get_campaign%'
+		"
+	);
+
+	wp_spp_get_mc_campaigns();
+} // wp_wpp_refresh_campaigns_task
+add_action( 'wp_spp_refresh_mailchimp_campaigns_task', 'wp_wpp_refresh_campaigns_task' );
+
