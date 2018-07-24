@@ -1,6 +1,6 @@
 === Synchronized Post Publisher ===
 Contributors: mikeyhoward1977
-Tags: documentation, posts, publish, publish posts, mailchimp
+Tags: content, posts, publish, publish posts, mailchimp
 Requires at least: 4.1
 Tested up to: 4.9.7
 Requires PHP: 5.4

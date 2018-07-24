@@ -12,7 +12,7 @@
  * License: GPL2
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * GitHub Plugin URI: https://github.com/mikeyhoward1977/wp-synchronized-post-publisher
- * Tags: documentation, posts, publish, publish posts, mailchimp
+ * Tags: content, posts, publish, publish posts, mailchimp
  *
  *
  * Synchronized_Post_Publisher is free software; you can redistribute it and/or modify
