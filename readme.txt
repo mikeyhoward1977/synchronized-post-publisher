@@ -2,9 +2,9 @@
 Contributors: mikeyhoward1977
 Tags: content, posts, publish, publish posts, mailchimp
 Requires at least: 4.1
-Tested up to: 4.9.7
+Tested up to: 5.4
 Requires PHP: 5.4
-Stable tag: 1.2
+Stable tag: 1.2.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -129,6 +129,12 @@ Support is provided via the [WordPress.org support forums](https://wordpress.org
 8. Confirmation of how many posts were published and email campaigns sent
 
 == Changelog ==
+
+= 1.2.1 =
+
+**Monday, 14th April 2020**
+
+* **Tweak**: Updated tested up to value
 
 = 1.2 =
 

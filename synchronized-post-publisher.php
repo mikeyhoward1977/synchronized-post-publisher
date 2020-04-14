@@ -3,8 +3,8 @@
  * Plugin Name: Synchronized Post Publisher
  * Plugin URI: 
  * Description: Automate the publishing of multiple posts, pages, products and MailChimp campaigns at the same time.
- * Version: 1.2
- * Date: 04 April 2018
+ * Version: 1.2.1
+ * Date: 14 April 2020
  * Author: Mike Howard
  * Author URI: https://mikesplugins.co.uk/
  * Text Domain: synchronized-post-publisher
@@ -30,7 +30,7 @@
  * @package		WP_SPP
  * @category	Core
  * @author		Mike Howard
- * @version		1.1.1
+ * @version		1.2.1
  */
 
 // Exit if accessed directly.
@@ -120,7 +120,7 @@ final class Synchronized_Post_Publisher {
 	private function setup_constants()	{
 
 		if ( ! defined( 'WP_SPP_VERSION' ) )	{
-			define( 'WP_SPP_VERSION', '1.1.1' );
+			define( 'WP_SPP_VERSION', '1.2.1' );
 		}
 
 		if ( ! defined( 'WP_SPP_PLUGIN_DIR' ) )	{
